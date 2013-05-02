@@ -1,3 +1,88 @@
+;;; genrnc.el --- generate RELAX NG Compact Schema from RELAX NG Schema, XML Schema and DTD.
+
+;; Copyright (C) 2013  Hiroaki Otsu
+
+;; Author: Hiroaki Otsu <ootsuhiroaki@gmail.com>
+;; Keywords: xml
+;; URL: https://github.com/aki2o/emacs-genrnc
+;; Version: 0.1.0
+
+;; This program is free software; you can redistribute it and/or modify
+;; it under the terms of the GNU General Public License as published by
+;; the Free Software Foundation, either version 3 of the License, or
+;; (at your option) any later version.
+
+;; This file is distributed in the hope that it will be useful,
+;; but WITHOUT ANY WARRANTY; without even the implied warranty of
+;; MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+;; GNU General Public License for more details.
+
+;; You should have received a copy of the GNU General Public License
+;; along with this program.  If not, see <http://www.gnu.org/licenses/>.
+
+;;; Commentary:
+;; 
+;; This extension generate RELAX NG Compact Schema from RELAX NG Schema, XML Schema and DTD.
+
+;;; Dependency:
+;; 
+;; - deferred.el ( see <https://github.com/kiwanami/emacs-deferred> )
+;; - concurrent.el ( see <https://github.com/kiwanami/emacs-deferred> )
+;; - yaxception.el ( see <https://github.com/aki2o/yaxception> )
+;; - log4e.el ( see <https://github.com/aki2o/log4e> )
+
+;;; Installation:
+;;
+;; Put this to your load-path.
+;; And put the following lines in your .emacs or site-start.el file.
+;; 
+;; (require 'genrnc)
+
+;;; Configuration:
+;; 
+;; Nothing
+
+;;; Customization:
+;; 
+;; [EVAL] (autodoc-document-lisp-buffer :type 'user-variable :prefix "genrnc-" :docstring t)
+;; `genrnc-user-schemas-directory'
+;; Directory of storing external scheme and "schemas.xml".
+;; `genrnc-download-timeout'
+;; Time of waiting downloading schema.
+;; 
+;;  *** END auto-documentation
+
+;;; API:
+;; 
+;; [EVAL] (autodoc-document-lisp-buffer :type 'command :prefix "genrnc-[^\-]" :docstring t)
+;; `genrnc-regist-url'
+;; Regist schema by downloading from given URL.
+;; `genrnc-regist-file'
+;; Regist schema by copying from given PATH.
+;; `genrnc-update-user-schema'
+;; Update schema by selection from the registed typeid list.
+;; `genrnc-delete-user-schema'
+;; Delete schema file and definition in "schemas.xml" by selection from the registed typeid list.
+;; `genrnc-rename-user-schema'
+;; Change schema typeid that is identifier when select applicable schema on nXML-mode.
+;; `genrnc-clear-cache'
+;; Delete the cached information of the execution environment and the user input when you run the schema registration and renewal.
+;; 
+;;  *** END auto-documentation
+;; [Note] Functions and variables other than listed above, Those specifications may be changed without notice.
+
+;;; Tested On:
+;; 
+;; - Emacs ... GNU Emacs 23.3.1 (i386-mingw-nt5.1.2600) of 2011-08-15 on GNUPACK
+;; - deferred.el ... Version 0.3.1
+;; - concurrent.el ... Version 0.3.1
+;; - yaxception.el ... Version 0.1
+;; - log4e.el ... Version 0.1
+
+
+;; Enjoy!!!
+
+
 (eval-when-compile (require 'cl))
 (require 'rx)
 (require 'regexp-opt)
@@ -28,15 +113,12 @@ This file added `rng-schema-locating-files' for nXML-mode."
   :group 'genrnc)
 
 
-(log4e:deflogger "genrnc"
-                 "%t [%l] %m"
-                 "%H:%M:%S"
-                 '((fatal . "fatal")
-                   (error . "error")
-                   (warn  . "warn")
-                   (info  . "info")
-                   (debug . "debug")
-                   (trace . "trace")))
+(log4e:deflogger "genrnc" "%t [%l] %m" "%H:%M:%S" '((fatal . "fatal")
+                                                    (error . "error")
+                                                    (warn  . "warn")
+                                                    (info  . "info")
+                                                    (debug . "debug")
+                                                    (trace . "trace")))
 (genrnc--log-set-level 'trace)
 
 
@@ -64,10 +146,7 @@ Specification:
  - If the schema is xsd and import abbreviated schemaLocation (ex. <import namespace=\"...\"/> ), run the following actiona.
    - If the namespace found in already registed schema, import them.
    - Else, prompt for you to identify its location in minibuffer.
- - The registed schema be stored in `genrnc-user-schemas-directory'.
-
-When Error:
- - "
+ - The registed schema be stored in `genrnc-user-schemas-directory'."
   (interactive "s[GENRNC] Schema URL: ")
   (yaxception:$
     (yaxception:try
@@ -79,7 +158,7 @@ When Error:
           (genrnc--update-namespace-files)
           (genrnc--generate url fext))))
     (yaxception:catch 'error e
-      ;; (genrnc--debug "" (yaxception:get-stack-trace-string e))
+      (genrnc--fatal "failed regist url:[%s]\n%s" url (yaxception:get-stack-trace-string e))
       (genrnc--finish-generate url 'failed t (yaxception:get-text e)))))
 
 (defun genrnc-regist-file (path)
@@ -106,6 +185,7 @@ Specification:
         (genrnc--update-namespace-files)
         (genrnc--generate (expand-file-name path) fext)))
     (yaxception:catch 'error e
+      (genrnc--fatal "failed regist file:[%s]\n%s" path (yaxception:get-stack-trace-string e))
       (genrnc--finish-generate (expand-file-name path) 'failed t (yaxception:get-text e)))))
 
 (defun genrnc-update-user-schema (typeid)
@@ -128,9 +208,10 @@ Specification:
             (genrnc--update-namespace-files)
             (genrnc--generate location fext nil t))
           (yaxception:catch 'error e
+            (genrnc--fatal "failed update schema of '%s'.\n%s" typeid (yaxception:get-stack-trace-string e))
             (genrnc--finish-generate location 'failed t (yaxception:get-text e) nil t)))))
     (yaxception:catch 'error e
-      (genrnc--error "failed update schema of '%s' : %s" typeid (yaxception:get-text e))
+      (genrnc--fatal "failed update schema of '%s'.\n%s" typeid (yaxception:get-stack-trace-string e))
       (message "[GENRNC] Failed update schema of '%s' : %s" typeid (yaxception:get-text e)))))
 
 (defun genrnc-delete-user-schema (typeid)
@@ -149,20 +230,25 @@ Specification:
           (setq genrnc--hash-schema-cache (make-hash-table :test 'equal))
           (message "[GENRNC] Finished delete schema of '%s'." typeid)))
       (yaxception:catch 'error e
-        (genrnc--error "failed delete schema of '%s' : %s" typeid (yaxception:get-text e))
+        (genrnc--fatal "failed delete schema of '%s'.\n%s" typeid (yaxception:get-stack-trace-string e))
         (message "[GENRNC] Failed delete schema of '%s' : %s" typeid (yaxception:get-text e))))))
 
 (defun genrnc-rename-user-schema (typeid)
   "Change schema typeid that is identifier when select applicable schema on nXML-mode."
   (interactive
    (list (completing-read "[GENRNC] Select Schema Type ID: " (genrnc--get-schemas-typeid-list-by-user) nil t)))
-  (genrnc--init-schema-directory)
-  (let* ((idx (genrnc--get-index-from-typeid typeid))
-         (location (genrnc--get-schema-location idx))
-         (newtypeid (genrnc--read-typeid location typeid)))
-    (genrnc--remove-schemas-defining typeid)
-    (genrnc--store-schemas-defining idx newtypeid)
-    (message "[GENRNC] Finished rename schema.")))
+  (yaxception:$
+    (yaxception:try
+      (genrnc--init-schema-directory)
+      (let* ((idx (genrnc--get-index-from-typeid typeid))
+             (location (genrnc--get-schema-location idx))
+             (newtypeid (genrnc--read-typeid location typeid)))
+        (genrnc--remove-schemas-defining typeid)
+        (genrnc--store-schemas-defining idx newtypeid)
+        (message "[GENRNC] Finished rename schema.")))
+    (yaxception:catch 'error e
+      (genrnc--fatal "failed rename schema of '%s'.\n%s" typeid (yaxception:get-stack-trace-string e))
+      (message "[GENRNC] Failed rename schema of '%s' : %s" typeid (yaxception:get-text e)))))
 
 (defun genrnc-clear-cache ()
   "Delete the cached information of the execution environment and the user input when you run the schema registration and renewal."
@@ -323,7 +409,8 @@ Specification:
       (yaxception:try
         (if (and (genrnc--schema-p schema)
                  (not (eq (genrnc--schema-state schema) 'failed)))
-            (progn (genrnc--info "already finished or started generate '%s'" url_or_path)
+            (progn (genrnc--info "already finished or started generate '%s'. state:[%s]"
+                                 url_or_path (genrnc--schema-state schema))
                    (when rootp
                      (message "[GENRNC] Already finished or started regist '%s'" url_or_path)))
           (puthash url_or_path (make-genrnc--schema :name url_or_path :state 'loading) genrnc--hash-schema-cache)
@@ -340,6 +427,7 @@ Specification:
                 (t
                  (genrnc--generate-from-file url_or_path fext rootp typeid force)))))
       (yaxception:catch 'error e
+        (genrnc--error "failed generate '%s'.\n%s" url_or_path (yaxception:get-stack-trace-string e))
         (genrnc--finish-generate url_or_path 'failed rootp (yaxception:get-text e) typeid force)))))
 
 (defun genrnc--read-typeid (url_or_path &optional initial-contents)
@@ -443,6 +531,7 @@ Specification:
                           (t
                            (genrnc--finish-generate url 'failed rootp (format "failed http status : %s" httpstat) typeid force)))))
                 (yaxception:catch 'error e
+                  (genrnc--error "failed generate from url:[%s]\n%s" url (yaxception:get-stack-trace-string e))
                   (genrnc--finish-generate url 'failed rootp (yaxception:get-text e) typeid force))
                 (yaxception:finally
                   (when (buffer-live-p buff)
@@ -493,7 +582,7 @@ Specification:
                       (loop for typeid in (genrnc--get-schemas-typeid-list idx)
                             do (genrnc--remove-schemas-defining typeid))))))))
     (yaxception:catch 'error e
-      (genrnc--error "failed finish generate '%s' : %s" url_or_path (yaxception:get-text e))
+      (genrnc--error "failed finish generate '%s'.\n%s" url_or_path (yaxception:get-stack-trace-string e))
       (when typeid
         (genrnc--trace "remove typeid:[%s] from defined list" typeid)
         (setq genrnc--defined-typeid-list (delete typeid genrnc--defined-typeid-list)))
@@ -550,7 +639,8 @@ Specification:
                            if (and currtypeid
                                    (string= currtypeid typeid))
                            return (cdr uricons))))
-    (when (string-match "^.+/\\([0-9]+\\)\\.rnc$" schemafile)
+    (when (and (stringp schemafile) 
+               (string-match "^.+/\\([0-9]+\\)\\.rnc$" schemafile))
       (match-string-no-properties 1 schemafile))))
 
 (defun genrnc--get-schema-location (idx)
@@ -790,6 +880,7 @@ Specification:
                    (lambda (e)
                      (genrnc--finish-generate url_or_path 'failed rootp (format "%s" e) typeid force))))))))
     (yaxception:catch 'error e
+      (genrnc--error "failed generate sentinel to '%s'.\n%s" url_or_path (yaxception:get-stack-trace-string e))
       (genrnc--finish-generate url_or_path 'failed rootp (yaxception:get-text e) typeid force))))
 
 (defvar genrnc--regexp-dtd-entitynm "[a-zA-Z][a-zA-Z0-9_.-]*")
@@ -798,7 +889,7 @@ Specification:
                                                               "PUBLIC" (+ space) "\"" (+ (not (any "\""))) "\"" (+ space) "\"")
                                                        (group (+ (not (any "\""))))
                                                        (group "\"" (* space) ">"))))
-(defvar genrnc--regexp-rnc-include (rx-to-string `(and bol (group (* space) "include" (+ (not (any "\"" "'"))))
+(defvar genrnc--regexp-rnc-include (rx-to-string `(and bol (group (* space) "include" (+ space) (or "\"" "'"))
                                                        (group (+ (not (any "\"" "'"))))
                                                        (group (or "\"" "'")))))
 (defun genrnc--get-and-replace-including-contents (buff url_or_path fext)
@@ -832,10 +923,11 @@ Specification:
                                       (t
                                        including)))
               for idx = (genrnc--get-index-with-create including)
-              do (set-match-data mdata)
-              do (replace-match (concat begintext idx "." fext aftertext))
-              do (genrnc--trace "got including '%s' and replaced to [%s]" including idx)
-              collect including
+              if (not (string= including url_or_path))
+              collect (progn (set-match-data mdata)
+                             (replace-match (concat begintext idx "." fext aftertext))
+                             (genrnc--trace "got including '%s' and replaced to [%s]" including idx)
+                             including)
               finally do (save-buffer))))))
 
 (defvar genrnc--regexp-xsd-xmlns (rx-to-string `(and "<" (+ (not (any ">")))
@@ -1057,3 +1149,4 @@ Specification:
 
 
 (provide 'genrnc)
+;;; genrnc.el ends here

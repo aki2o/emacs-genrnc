@@ -1,0 +1,496 @@
+grammar {
+anything = ( element * { anything } | attribute *  { text } | text )*
+
+empty_type = attribute type { string "empty" }
+bool_type = attribute type { string "boolean" }
+string_type = attribute type { string "string" }
+short_type = attribute type { string "short" }
+long_type = attribute type { string "long" }
+longlong_type = attribute type { string "longlong" }
+double_type = attribute type { string "double" }
+object_type = attribute type { string "object" }
+date_type = attribute type { string "date" }
+file_type = attribute type { string "file" }
+enum_type = attribute type { string "enumeration" }
+unit_type = attribute type { string "unit" }
+stream_type = attribute type { string "binary" }
+list_type = attribute type { string "list" }
+record_type = attribute type { string "record" }
+
+StoryTypes_EnumValue = string "RegularStory" | string "TocStory" | string "IndexingStory"
+StoryDirectionOptions_EnumValue = string "LeftToRightDirection" | string "RightToLeftDirection" | string "UnknownDirection"
+ImportFormat_EnumValue = string "CharacterStylesFormat" | string "ParagraphStylesFormat" | string "TextStylesFormat" | string "TOCStylesFormat" | string "NamedGridsFormat" | string "ObjectStylesFormat" | string "StrokeStylesFormat" | string "TableStylesFormat" | string "CellStylesFormat" | string "TableAndCellStylesFormat"
+NestedStyleDelimiters_EnumValue = string "Sentence" | string "AnyWord" | string "AnyCharacter" | string "Letters" | string "Digits" | string "Tabs" | string "InlineGraphic" | string "Dropcap" | string "ForcedLineBreak" | string "EndNestedStyle" | string "IndentHereTab" | string "EmSpace" | string "EnSpace" | string "NonbreakingSpace" | string "AutoPageNumber" | string "SectionMarker" | string "Repeat"
+RuleWidth_EnumValue = string "TextWidth" | string "ColumnWidth"
+Justification_EnumValue = string "LeftAlign" | string "CenterAlign" | string "RightAlign" | string "LeftJustified" | string "RightJustified" | string "CenterJustified" | string "FullyJustified" | string "ToBindingSide" | string "AwayFromBindingSide"
+SingleWordJustification_EnumValue = string "LeftAlign" | string "CenterAlign" | string "RightAlign" | string "FullyJustified"
+StartParagraph_EnumValue = string "Anywhere" | string "NextColumn" | string "NextFrame" | string "NextPage" | string "NextOddPage" | string "NextEvenPage"
+FrameTypes_EnumValue = string "TextFrameType" | string "FrameGridType" | string "Unknown"
+HorizontalOrVertical_EnumValue = string "Horizontal" | string "Vertical"
+TabStopAlignment_EnumValue = string "LeftAlign" | string "CenterAlign" | string "RightAlign" | string "CharacterAlign"
+FirstBaseline_EnumValue = string "AscentOffset" | string "CapHeight" | string "LeadingOffset" | string "EmboxHeight" | string "XHeight" | string "FixedHeight"
+VerticalJustification_EnumValue = string "TopAlign" | string "CenterAlign" | string "BottomAlign" | string "JustifyAlign"
+Leading_EnumValue = string "Auto"
+OTFFigureStyle_EnumValue = string "TabularLining" | string "ProportionalOldstyle" | string "ProportionalLining" | string "TabularOldstyle" | string "Default"
+Capitalization_EnumValue = string "Normal" | string "SmallCaps" | string "AllCaps" | string "CapToSmallCap"
+Position_EnumValue = string "Normal" | string "Superscript" | string "Subscript" | string "OTSuperscript" | string "OTSubscript" | string "OTNumerator" | string "OTDenominator"
+TextFrameContents_EnumValue = string "PlaceholderText"
+SpecialCharacters_EnumValue = string "AutoPageNumber" | string "NextPageNumber" | string "PreviousPageNumber" | string "SectionMarker" | string "BulletCharacter" | string "CopyrightSymbol" | string "DegreeSymbol" | string "EllipsisCharacter" | string "ForcedLineBreak" | string "ParagraphSymbol" | string "RegisteredTrademark" | string "SectionSymbol" | string "TrademarkSymbol" | string "RightIndentTab" | string "IndentHereTab" | string "EmDash" | string "EnDash" | string "DiscretionaryHyphen" | string "NonbreakingHyphen" | string "EndNestedStyle" | string "DoubleLeftQuote" | string "DoubleRightQuote" | string "SingleLeftQuote" | string "SingleRightQuote" | string "EmSpace" | string "EnSpace" | string "FlushSpace" | string "HairSpace" | string "NonbreakingSpace" | string "ThinSpace" | string "FigureSpace" | string "PunctuationSpace" | string "ColumnBreak" | string "FrameBreak" | string "PageBreak" | string "OddPageBreak" | string "EvenPageBreak" | string "FootnoteSymbol" | string "TextVariable" | string "SingleStraightQuote" | string "DoubleStraightQuote" | string "DiscretionaryLineBreak" | string "ZeroWidthNonjoiner" | string "ThirdSpace" | string "QuarterSpace" | string "SixthSpace" | string "FixedWidthNonbreakingSpace" | string "HebrewMaqaf" | string "HebrewGeresh" | string "HebrewGershayim" | string "ArabicKashida" | string "ArabicComma" | string "ArabicSemicolon" | string "ArabicQuestionMark" | string "LeftToRightMark" | string "RightToLeftMark"
+ChangecaseMode_EnumValue = string "Uppercase" | string "Lowercase" | string "Titlecase" | string "Sentencecase"
+BindingOptions_EnumValue = string "RightAlign" | string "LeftAlign" | string "Default"
+PageOrientation_EnumValue = string "Landscape" | string "Portrait"
+RulerOrigin_EnumValue = string "SpreadOrigin" | string "PageOrigin" | string "SpineOrigin"
+MeasurementUnits_EnumValue = string "Points" | string "Picas" | string "Inches" | string "InchesDecimal" | string "Millimeters" | string "Centimeters" | string "Ciceros" | string "Q" | string "Ha" | string "AmericanPoints" | string "Custom" | string "Agates"
+PageBindingOptions_EnumValue = string "Default" | string "RightToLeft" | string "LeftToRight"
+BaselineGridRelativeOption_EnumValue = string "TopOfPageOfBaselineGridRelativeOption" | string "TopOfMarginOfBaselineGridRelativeOption"
+PageSideOptions_EnumValue = string "RightHand" | string "LeftHand" | string "SingleSided"
+WhenScalingOptions_EnumValue = string "ApplyToContent" | string "AdjustScalingPercentage"
+EPSColorSpace_EnumValue = string "RGB" | string "CMYK" | string "Gray" | string "UnchangedColorSpace" | string "PostscriptColorManagement"
+PreviewTypes_EnumValue = string "None" | string "TIFFPreview" | string "PICTPreview"
+FontEmbedding_EnumValue = string "None" | string "Complete" | string "Subset"
+ScaleModes_EnumValue = string "ScaleWidthHeight" | string "ScaleToFit"
+PrintLayerOptions_EnumValue = string "AllLayers" | string "VisibleLayers" | string "VisiblePrintableLayers"
+GlobalClashResolutionStrategyForMasterPage_EnumValue = string "LoadAllWithOverwrite" | string "LoadAllWithRename"
+ClippingPathType_EnumValue = string "None" | string "DetectEdges" | string "AlphaChannel" | string "PhotoshopPath" | string "UserModifiedPath"
+UpdateLinkOptions_EnumValue = string "Unknown" | string "ApplicationSettings" | string "KeepOverrides"
+IconSizes_EnumValue = string "ExtraSmallIcon" | string "SmallIcon" | string "MediumIcon" | string "LargeIcon" | string "ExtraLargeIcon"
+PanelLayoutResize_EnumValue = string "ProportionalResize" | string "PagesFixed" | string "MastersFixed"
+PDFContentToEmbed_EnumValue = string "UseObjectSettings" | string "LinkAll" | string "EmbedAll"
+PDFColorSpace_EnumValue = string "RGB" | string "CMYK" | string "UnchangedColorSpace" | string "RepurposeRGB" | string "RepurposeCMYK"
+AcrobatCompatibility_EnumValue = string "Acrobat4" | string "Acrobat5" | string "Acrobat6" | string "Acrobat7" | string "Acrobat8"
+ICCProfiles_EnumValue = string "IncludeNone" | string "IncludeAll" | string "IncludeTagged" | string "IncludeRGBAndTagged"
+BitmapCompression_EnumValue = string "None" | string "AutoCompression" | string "JPEG" | string "Zip" | string "JPEG2000" | string "AutomaticJPEG2000"
+CompressionQuality_EnumValue = string "Minimum" | string "Low" | string "Medium" | string "High" | string "Maximum" | string "FourBit" | string "EightBit"
+MonoBitmapCompression_EnumValue = string "None" | string "CCIT3" | string "CCIT4" | string "Zip" | string "RunLength"
+PDFMarkWeight_EnumValue = string "P125pt" | string "P25pt" | string "P50pt" | string "P05mm" | string "P07mm" | string "P10mm" | string "P15mm" | string "P20mm" | string "P30mm"
+Sampling_EnumValue = string "None" | string "Downsample" | string "Subsample" | string "BicubicDownsample"
+ExportPresetFormat_EnumValue = string "PDFExportPresetsFormat" | string "PrinterPresetsFormat" | string "FlattenerPresetsFormat" | string "DocumentPresetsFormat"
+PDFCrop_EnumValue = string "CropContent" | string "CropArt" | string "CropPDF" | string "CropTrim" | string "CropBleed" | string "CropMedia"
+PDFCompressionType_EnumValue = string "CompressNone" | string "CompressStructure" | string "CompressObjects"
+PDFProfileSelector_EnumValue = string "UseNoProfile" | string "UseMonitorProfile" | string "UseDocument" | string "Working"
+PDFXStandards_EnumValue = string "None" | string "PDFX1a2001Standard" | string "PDFX32002Standard" | string "PDFX1a2003Standard" | string "PDFX32003Standard" | string "PDFX42007Standard"
+ExportLayerOptions_EnumValue = string "ExportAllLayers" | string "ExportVisibleLayers" | string "ExportVisiblePrintableLayers"
+ConvertShapeOptions_EnumValue = string "ConvertToRectangle" | string "ConvertToRoundedRectangle" | string "ConvertToBeveledRectangle" | string "ConvertToInverseRoundedRectangle" | string "ConvertToOval" | string "ConvertToTriangle" | string "ConvertToPolygon" | string "ConvertToLine" | string "ConvertToStraightLine" | string "ConvertToOpenPath" | string "ConvertToClosedPath"
+CoordinateSpaces_EnumValue = string "PasteboardCoordinates" | string "ParentCoordinates" | string "InnerCoordinates" | string "SpreadCoordinates"
+MatrixContent_EnumValue = string "ScaleValues" | string "ShearValue" | string "RotationValue" | string "TranslationValues"
+BoundingBoxLimits_EnumValue = string "OuterStrokeBounds" | string "GeometricPathBounds"
+ResizeConstraints_EnumValue = string "KeepCurrentValue" | string "KeepCurrentProportions"
+ResizeMethods_EnumValue = string "AddingCurrentDimensionsTo" | string "MultiplyingCurrentDimensionsBy" | string "ReplacingCurrentDimensionsWith"
+EmptyFrameFittingOptions_EnumValue = string "None" | string "ContentToFrame" | string "Proportionally" | string "FillProportionally"
+CornerOptions_EnumValue = string "None" | string "RoundedCorner" | string "InverseRoundedCorner" | string "InsetCorner" | string "BevelCorner" | string "FancyCorner"
+ContentType_EnumValue = string "Unassigned" | string "GraphicType" | string "TextType"
+EndCap_EnumValue = string "ButtEndCap" | string "RoundEndCap" | string "ProjectingEndCap"
+EndJoin_EnumValue = string "MiterEndJoin" | string "RoundEndJoin" | string "BevelEndJoin"
+StrokeCornerAdjustment_EnumValue = string "None" | string "Dashes" | string "Gaps" | string "DashesAndGaps"
+ArrowHead_EnumValue = string "None" | string "SimpleArrowHead" | string "SimpleWideArrowHead" | string "TriangleArrowHead" | string "TriangleWideArrowHead" | string "BarbedArrowHead" | string "CurvedArrowHead" | string "CircleArrowHead" | string "CircleSolidArrowHead" | string "SquareArrowHead" | string "SquareSolidArrowHead" | string "BarArrowHead"
+DisplaySettingOptions_EnumValue = string "HighQuality" | string "Typical" | string "Optimized" | string "Default"
+FitOptions_EnumValue = string "ContentToFrame" | string "CenterContent" | string "Proportionally" | string "FrameToContent" | string "FillProportionally" | string "ApplyFrameFittingOptions"
+StrokeAlignment_EnumValue = string "CenterAlignment" | string "InsideAlignment" | string "OutsideAlignment"
+TextWrapTypes_EnumValue = string "None" | string "JumpObjectTextWrap" | string "NextColumnTextWrap" | string "BoundingBoxTextWrap" | string "Contour" | string "UserModified"
+ContourOptionsTypes_EnumValue = string "BoundingBox" | string "PhotoshopPath" | string "DetectEdges" | string "AlphaChannel" | string "GraphicFrame" | string "SameAsClipping"
+TextWrapSideOptions_EnumValue = string "BothSides" | string "LeftSide" | string "RightSide" | string "SideTowardsSpine" | string "SideAwayFromSpine" | string "LargestArea"
+TextWrapModes_EnumValue = string "None" | string "JumpObjectTextWrap" | string "NextColumnTextWrap" | string "BoundingBoxTextWrap" | string "Contour"
+FontStatus_EnumValue = string "Installed" | string "NotAvailable" | string "Fauxed" | string "Substituted" | string "Unknown"
+FontTypes_EnumValue = string "Type1" | string "TrueType" | string "CID" | string "ATC" | string "Bitmap" | string "OCF" | string "OpenTypeCFF" | string "OpenTypeCID" | string "OpenTypeTT" | string "Unknown"
+OpenTypeFeature_EnumValue = string "Low" | string "DiscretionaryLigaturesFeature" | string "FractionsFeature" | string "OrdinalFeature" | string "SwashFeature" | string "TitlingFeature" | string "ContextualAlternatesFeature" | string "AllSmallCapsFeature" | string "SuperscriptFeature" | string "SubscriptFeature" | string "NumeratorFeature" | string "DenominatorFeature" | string "TabularLiningFeature" | string "ProportionalOldstyleFeature" | string "ProportionalLiningFeature" | string "TabularOldstyleFeature" | string "DefaultFigureStyleFeature"
+CharacterAlignment_EnumValue = string "AlignBaseline" | string "AlignEmTop" | string "AlignEmCenter" | string "AlignEmBottom" | string "AlignICFTop" | string "AlignICFBottom"
+AlternateGlyphForms_EnumValue = string "None" | string "TraditionalForm" | string "ExpertForm" | string "JIS78Form" | string "JIS83Form" | string "MonospacedHalfWidthForm" | string "ThirdWidthForm" | string "QuarterWidthForm" | string "NLCForm" | string "ProportionalWidthForm" | string "FullWidthForm" | string "JIS04Form" | string "JIS90Form"
+AdornmentOverprint_EnumValue = string "Auto" | string "OverprintOn" | string "OverprintOff"
+KentenCharacter_EnumValue = string "None" | string "KentenSesameDot" | string "KentenWhiteSesameDot" | string "KentenBlackCircle" | string "KentenWhiteCircle" | string "KentenBlackTriangle" | string "KentenWhiteTriangle" | string "KentenBullseye" | string "KentenFisheye" | string "KentenSmallBlackCircle" | string "KentenSmallWhiteCircle" | string "Custom"
+RubyKentenPosition_EnumValue = string "AboveRight" | string "BelowLeft"
+KentenCharacterSet_EnumValue = string "CharacterInput" | string "ShiftJIS" | string "JIS" | string "Kuten" | string "Unicode"
+RubyTypes_EnumValue = string "GroupRuby" | string "PerCharacterRuby"
+RubyAlignments_EnumValue = string "RubyLeft" | string "RubyCenter" | string "RubyRight" | string "RubyFullJustify" | string "RubyJIS" | string "RubyEqualAki" | string "Ruby1Aki"
+RubyParentSpacing_EnumValue = string "RubyParentNoAdjustment" | string "RubyParentBothSides" | string "RubyParent121Aki" | string "RubyParentEqualAki" | string "RubyParentFullJustify"
+RubyOverhang_EnumValue = string "None" | string "RubyOverhangOneRuby" | string "RubyOverhangHalfRuby" | string "RubyOverhangOneChar" | string "RubyOverhangHalfChar" | string "RubyOverhangNoLimit"
+WarichuAlignment_EnumValue = string "Auto" | string "LeftAlign" | string "CenterAlign" | string "RightAlign" | string "FullyJustified" | string "LeftJustified" | string "CenterJustified" | string "RightJustified"
+KinsokuType_EnumValue = string "KinsokuPushInFirst" | string "KinsokuPushOutFirst" | string "KinsokuPushOutOnly" | string "KinsokuPrioritizeAdjustmentAmount"
+KinsokuHangTypes_EnumValue = string "None" | string "KinsokuHangRegular" | string "KinsokuHangForce"
+LeadingModel_EnumValue = string "LeadingModelRoman" | string "LeadingModelAkiBelow" | string "LeadingModelAkiAbove" | string "LeadingModelCenter" | string "LeadingModelCenterDown"
+KinsokuSet_EnumValue = string "Nothing" | string "HardKinsoku" | string "SoftKinsoku" | string "KoreanKinsoku" | string "SimplifiedChineseKinsoku" | string "TraditionalChineseKinsoku"
+MojikumiTableDefaults_EnumValue = string "Nothing" | string "LineEndAllOneHalfEmEnum" | string "OneEmIndentLineEndUkeOneHalfEmEnum" | string "OneOrOneHalfEmIndentLineEndUkeOneHalfEmEnum" | string "OneOrOneHalfEmIndentLineEndAllOneEmEnum" | string "OneEmIndentLineEndAllOneEmEnum" | string "OneEmIndentLineEndAllNoFloatEnum" | string "OneEmIndentLineEndUkeNoFloatEnum" | string "OneOrOneHalfEmIndentLineEndUkeNoFloatEnum" | string "OneEmIndentLineEndAllOneHalfEmEnum" | string "LineEndAllOneEmEnum" | string "LineEndUkeNoFloatEnum" | string "OneOrOneHalfEmIndentLineEndPeriodOneEmEnum" | string "OneEmIndentLineEndPeriodOneEmEnum" | string "LineEndPeriodOneEmEnum" | string "TradChineseDefault" | string "SimpChineseDefault"
+GridAlignment_EnumValue = string "None" | string "AlignBaseline" | string "AlignEmTop" | string "AlignEmCenter" | string "AlignEmBottom" | string "AlignICFTop" | string "AlignICFBottom"
+KentenAlignment_EnumValue = string "AlignKentenLeft" | string "AlignKentenCenter"
+ComposeUsing_EnumValue = string "UseUserDictionary" | string "UseDocument" | string "Both"
+PageNumberStyle_EnumValue = string "UpperRoman" | string "LowerRoman" | string "UpperLetters" | string "LowerLetters" | string "Arabic" | string "Kanji" | string "DoubleLeadingZeros" | string "TripleLeadingZeros" | string "ArabicAlifBaTah" | string "ArabicAbjad" | string "HebrewBiblical" | string "HebrewNonStandard" | string "SingleLeadingZeros" | string "FullWidthArabic"
+GradientType_EnumValue = string "Linear" | string "Radial"
+EncodingType_EnumValue = string "HexEncoding" | string "Ascii85Encoding" | string "Ascii64Encoding"
+ContentsTypeSettings_EnumValue = string "AxialShade" | string "RadialShade" | string "MeshShade" | string "ConstantShade"
+JoinOptions_EnumValue = string "Connect" | string "Combine"
+PathType_EnumValue = string "OpenPath" | string "ClosedPath"
+PointType_EnumValue = string "LineType" | string "Smooth" | string "Corner" | string "Symmetrical"
+CreateProxy_EnumValue = string "AsNeeded" | string "Always"
+ImportedPageCropOptions_EnumValue = string "CropContent" | string "CropBleed" | string "CropSlug"
+StrokeFillProxyOptions_EnumValue = string "Stroke" | string "Fill"
+StrokeFillTargetOptions_EnumValue = string "FormattingAffectsContainer" | string "FormattingAffectsText"
+LocationOptions_EnumValue = string "Before" | string "After" | string "AtEnd" | string "AtBeginning" | string "Unknown"
+UIColors_EnumValue = string "LightBlue" | string "Red" | string "Green" | string "Blue" | string "Yellow" | string "Magenta" | string "Cyan" | string "Gray" | string "Black" | string "Orange" | string "DarkGreen" | string "Teal" | string "Tan" | string "Brown" | string "Violet" | string "Gold" | string "DarkBlue" | string "Pink" | string "Lavender" | string "BrickRed" | string "OliveGreen" | string "Peach" | string "Burgundy" | string "GrassGreen" | string "Ochre" | string "Purple" | string "LightGray" | string "Charcoal" | string "GridBlue" | string "GridOrange" | string "Fiesta" | string "LightOlive" | string "Lipstick" | string "CuteTeal" | string "Sulphur" | string "GridGreen" | string "White"
+NothingEnum_EnumValue = string "Nothing"
+AutoEnum_EnumValue = string "AutoValue"
+EventPhases_EnumValue = string "NotDispatching" | string "CapturingPhase" | string "AtTarget" | string "BubblingPhase" | string "Done"
+ExportFormat_EnumValue = string "TaggedText" | string "PDFType" | string "EPSType" | string "RTF" | string "TextType" | string "XML" | string "JPG" | string "InDesignInterchange" | string "InDesignSnippet" | string "InCopyDocument" | string "InDesignMarkup" | string "InCopyMarkup" | string "PNGFormat" | string "PackagedXFL" | string "SWF"
+PlacedVectorProfilePolicy_EnumValue = string "IgnoreAll" | string "IgnoreOutputIntent" | string "HonorAllProfiles"
+ColorSettingsPolicy_EnumValue = string "ColorPolicyOff" | string "PreserveEmbeddedProfiles" | string "ConvertToWorkingSpace" | string "CombinationOfPreserveAndSafeCmyk"
+DefaultRenderingIntent_EnumValue = string "Perceptual" | string "Saturation" | string "RelativeColorimetric" | string "AbsoluteColorimetric"
+ProofingType_EnumValue = string "ProofOff" | string "DocumentCMYK" | string "WorkingCMYK" | string "Custom"
+ChangeConditionsModes_EnumValue = string "ReplaceWith" | string "AddTo"
+SearchModes_EnumValue = string "TextSearch" | string "GrepSearch" | string "GlyphSearch" | string "ObjectSearch" | string "TransliterateSearch"
+ObjectTypes_EnumValue = string "AllFramesType" | string "TextFramesType" | string "GraphicFramesType" | string "UnassignedFramesType"
+FindChangeTransliterateCharacterTypes_EnumValue = string "HalfWidthKatakana" | string "HalfWidthRomanSymbols" | string "FullWidthHiragana" | string "FullWidthKatakana" | string "FullWidthRomanSymbols"
+LibraryPanelViews_EnumValue = string "ListView" | string "ThumbnailView" | string "LargeThumbnailView"
+SortAssets_EnumValue = string "ByName" | string "ByOldest" | string "ByNewest" | string "ByType"
+LinkStatus_EnumValue = string "Normal" | string "LinkOutOfDate" | string "LinkMissing" | string "LinkEmbedded"
+LinkResourceStoreState_EnumValue = string "Normal" | string "Cached" | string "Contained" | string "Embedded"
+LinkImportPolicy_EnumValue = string "NoAutoImport" | string "ImportOnModify"
+LinkExportPolicy_EnumValue = string "NoAutoExport" | string "ExportOnModify" | string "ExportOnClose" | string "ExportOnSave"
+AssetType_EnumValue = string "ImageType" | string "EPSType" | string "PDFType" | string "GeometryType" | string "PageType" | string "TextType" | string "StructureType" | string "InDesignFileType"
+ChangeTypes_EnumValue = string "InsertedText" | string "DeletedText" | string "MovedText"
+TextPathEffects_EnumValue = string "RainbowPathEffect" | string "SkewPathEffect" | string "RibbonPathEffect" | string "StairStepPathEffect" | string "GravityPathEffect"
+TextTypeAlignments_EnumValue = string "AscenderTextAlignment" | string "DescenderTextAlignment" | string "CenterTextAlignment" | string "BaselineTextAlignment" | string "AboveRightEmBoxTextAlignment" | string "BelowLeftEmBoxTextAlignment" | string "AboveRightIcfBoxTextAlignment" | string "BelowLeftIcfBoxTextAlignment"
+PathTypeAlignments_EnumValue = string "TopPathAlignment" | string "BottomPathAlignment" | string "CenterPathAlignment"
+FlipValues_EnumValue = string "NotFlipped" | string "Flipped" | string "UndefinedFlipValue"
+XMLElementLocation_EnumValue = string "ElementStart" | string "ElementEnd"
+XMLElementPosition_EnumValue = string "BeforeElement" | string "AfterElement" | string "ElementStart" | string "ElementEnd"
+XMLImportStyles_EnumValue = string "AppendImport" | string "MergeImport"
+XMLFileEncoding_EnumValue = string "UTF8" | string "UTF16" | string "ShiftJIS"
+ImageConversion_EnumValue = string "Automatic" | string "JPEG" | string "GIF"
+GIFOptionsPalette_EnumValue = string "AdaptivePalette" | string "MacintoshPalette" | string "WebPalette" | string "WindowsPalette"
+JPEGOptionsQuality_EnumValue = string "Low" | string "Medium" | string "High" | string "Maximum"
+JPEGOptionsFormat_EnumValue = string "BaselineEncoding" | string "ProgressiveEncoding"
+XMLExportUntaggedTablesFormat_EnumValue = string "None" | string "CALS"
+XMLTransformFile_EnumValue = string "StylesheetInXML"
+AnchorPosition_EnumValue = string "InlinePosition" | string "AboveLine" | string "Anchored"
+HorizontalAlignment_EnumValue = string "RightAlign" | string "LeftAlign" | string "CenterAlign" | string "TextAlign"
+VerticalAlignment_EnumValue = string "TopAlign" | string "BottomAlign" | string "CenterAlign"
+AnchoredRelativeTo_EnumValue = string "ColumnEdge" | string "TextFrame" | string "PageMargins" | string "PageEdge" | string "AnchorLocation"
+BalanceLinesStyle_EnumValue = string "NoBalancing" | string "VeeShape" | string "FullyBalanced" | string "PyramidShape"
+VerticallyRelativeTo_EnumValue = string "ColumnEdge" | string "TextFrame" | string "PageMargins" | string "PageEdge" | string "LineBaseline" | string "LineXheight" | string "LineAscent" | string "Capheight" | string "TopOfLeading"
+PositionalForms_EnumValue = string "None" | string "Calculate" | string "Initial" | string "Medial" | string "Final" | string "Isolated"
+TextStrokeAlign_EnumValue = string "CenterAlignment" | string "OutsideAlignment"
+OutlineJoin_EnumValue = string "MiterEndJoin" | string "RoundEndJoin" | string "BevelEndJoin"
+ParagraphBreakTypes_EnumValue = string "Anywhere" | string "NextColumn" | string "NextFrame" | string "NextPage" | string "NextOddPage" | string "NextEvenPage"
+PageNumberTypes_EnumValue = string "AutoPageNumber" | string "NextPageNumber" | string "PreviousPageNumber" | string "TextVariable"
+BaselineFrameGridRelativeOption_EnumValue = string "TopOfPage" | string "TopOfMargin" | string "TopOfFrame" | string "TopOfInset"
+FootnoteFirstBaseline_EnumValue = string "AscentOffset" | string "CapHeight" | string "LeadingOffset" | string "EmboxHeight" | string "XHeight" | string "FixedHeight"
+FootnoteRestarting_EnumValue = string "DontRestart" | string "PageRestart" | string "SpreadRestart" | string "SectionRestart"
+FootnotePrefixSuffix_EnumValue = string "NoPrefixSuffix" | string "PrefixSuffixReference" | string "PrefixSuffixMarker" | string "PrefixSuffixBoth"
+FootnoteNumberingStyle_EnumValue = string "UpperRoman" | string "LowerRoman" | string "UpperLetters" | string "LowerLetters" | string "Arabic" | string "Symbols" | string "Kanji" | string "FullWidthArabic" | string "SingleLeadingZeros" | string "DoubleLeadingZeros" | string "Asterisks" | string "ArabicAlifBaTah" | string "ArabicAbjad" | string "HebrewBiblical" | string "HebrewNonStandard"
+FootnoteMarkerPositioning_EnumValue = string "NormalMarker" | string "SuperscriptMarker" | string "SubscriptMarker" | string "RubyMarker"
+OverrideType_EnumValue = string "All" | string "CharacterOnly" | string "ParagraphOnly"
+GlobalClashResolutionStrategy_EnumValue = string "LoadAllWithOverwrite" | string "LoadAllWithRename" | string "DoNotLoadTheStyle"
+StoryHorizontalOrVertical_EnumValue = string "Horizontal" | string "Vertical" | string "Unknown"
+AddPageOptions_EnumValue = string "EndOfStory" | string "EndOfSection" | string "EndOfDocument"
+VariableTypes_EnumValue = string "CustomTextType" | string "FileNameType" | string "LastPageNumberType" | string "ChapterNumberType" | string "OutputDateType" | string "CreationDateType" | string "ModificationDateType" | string "MatchCharacterStyleType" | string "MatchParagraphStyleType" | string "XrefPageNumberType" | string "XrefChapterNumberType"
+VariableScopes_EnumValue = string "DocumentScope" | string "SectionScope"
+VariableNumberingStyles_EnumValue = string "Current" | string "Arabic" | string "UpperRoman" | string "LowerRoman" | string "UpperLetters" | string "LowerLetters" | string "Kanji" | string "FullWidthArabic" | string "SingleLeadingZeros" | string "DoubleLeadingZeros"
+SearchStrategies_EnumValue = string "FirstOnPage" | string "LastOnPage"
+ChangeCaseOptions_EnumValue = string "None" | string "Uppercase" | string "Lowercase" | string "Titlecase" | string "Sentencecase"
+LineAlignment_EnumValue = string "LeftOrTopLineAlign" | string "CenterLineAlign" | string "RightOrBottomLineAlign" | string "LeftOrTopLineJustify" | string "CenterLineJustify" | string "RightOrBottomLineJustify" | string "FullLineJustify"
+GridStartingPointOptions_EnumValue = string "TopOutside" | string "TopInside" | string "BottomOutside" | string "BottomInside" | string "CenterVertical" | string "CenterHorizontal" | string "CenterCompletely"
+GridViewSettings_EnumValue = string "GridViewEnum" | string "ZnViewEnum" | string "AlignViewEnum" | string "GridAndZnViewEnum"
+CharacterCountLocation_EnumValue = string "None" | string "TopAlign" | string "LeftAlign" | string "BottomAlign" | string "RightAlign"
+InCopyUIColors_EnumValue = string "Canary" | string "Lemon" | string "Electrolyte" | string "Lime" | string "Forest" | string "Lichen" | string "Jade" | string "Aqua" | string "Cirrus" | string "Ether" | string "Slate" | string "Ultramarine" | string "Midnight" | string "Blueberry" | string "Eggplant" | string "Grape" | string "Fuchsia" | string "Iris" | string "Carnation" | string "Mocha" | string "Wheat" | string "Mustard" | string "Amber" | string "Cornstarch" | string "Powder" | string "Smoke" | string "Graphite" | string "Gunmetal" | string "LightBlue" | string "Red" | string "Green" | string "Blue" | string "Yellow" | string "Magenta" | string "Cyan" | string "Gray" | string "Black" | string "Orange" | string "DarkGreen" | string "Teal" | string "Tan" | string "Brown" | string "Violet" | string "Gold" | string "DarkBlue" | string "Pink" | string "Lavender" | string "BrickRed" | string "OliveGreen" | string "Peach" | string "Burgundy" | string "GrassGreen" | string "Ochre" | string "Purple" | string "LightGray" | string "Charcoal" | string "GridBlue" | string "GridOrange" | string "Fiesta" | string "LightOlive" | string "Lipstick" | string "CuteTeal" | string "Sulphur" | string "GridGreen" | string "White"
+CursorTypes_EnumValue = string "StandardCursor" | string "ThickCursor" | string "BarbellCursor" | string "BlockCursor"
+AntiAliasType_EnumValue = string "GrayAntialiasing" | string "ColorAntialiasing" | string "ThickerAntialiasing"
+LineSpacingType_EnumValue = string "SingleSpace" | string "OneAndHalfSpace" | string "DoubleSpace" | string "TripleSpace"
+RepaginateOption_EnumValue = string "NextPage" | string "NextOddPage" | string "NextEvenPage"
+BookContentStatus_EnumValue = string "Normal" | string "MissingDocument" | string "DocumentOutOfDate" | string "DocumentInUse" | string "DocumentIsOpen"
+SmartMatchOptions_EnumValue = string "MatchStylePath" | string "MatchStyleName"
+RowTypes_EnumValue = string "BodyRow" | string "HeaderRow" | string "FooterRow" | string "MixedState"
+HeaderFooterBreakTypes_EnumValue = string "InAllTextColumns" | string "OncePerTextFrame" | string "OncePerPage"
+AlternatingFillsTypes_EnumValue = string "NoAlternatingPattern" | string "AlternatingRows" | string "AlternatingColumns"
+StrokeOrderTypes_EnumValue = string "RowOnTop" | string "ColumnOnTop" | string "BestJoins" | string "Indesign2Compatibility"
+DisplayOrderOptions_EnumValue = string "OrderByRows" | string "OrderByColumns"
+FlattenerLevel_EnumValue = string "Low" | string "MediumLow" | string "Medium" | string "MediumHigh" | string "High"
+BlendingSpace_EnumValue = string "Default" | string "RGB" | string "CMYK"
+BlendMode_EnumValue = string "Normal" | string "Multiply" | string "Screen" | string "Overlay" | string "SoftLight" | string "HardLight" | string "ColorDodge" | string "ColorBurn" | string "Darken" | string "Lighten" | string "Difference" | string "Exclusion" | string "Hue" | string "Saturation" | string "Color" | string "Luminosity"
+ShadowMode_EnumValue = string "None" | string "Drop"
+FeatherMode_EnumValue = string "None" | string "Standard"
+FeatherCornerType_EnumValue = string "Sharp" | string "Rounded" | string "Diffusion"
+SpreadFlattenerLevel_EnumValue = string "Default" | string "None" | string "Custom"
+GlowTechnique_EnumValue = string "Softer" | string "Precise"
+InnerGlowSource_EnumValue = string "CenterSourced" | string "EdgeSourced"
+BevelAndEmbossStyle_EnumValue = string "OuterBevel" | string "InnerBevel" | string "Emboss" | string "PillowEmboss"
+BevelAndEmbossTechnique_EnumValue = string "SmoothContour" | string "ChiselHard" | string "ChiselSoft"
+BevelAndEmbossDirection_EnumValue = string "Up" | string "Down"
+FollowShapeModeOptions_EnumValue = string "None" | string "LeadingEdge" | string "AllEdges"
+PageNumberPosition_EnumValue = string "AfterEntry" | string "BeforeEntry" | string "None"
+NumberedParagraphsOptions_EnumValue = string "IncludeFullParagraph" | string "IncludeNumbersOnly" | string "ExcludeNumbers"
+TextImportCharacterSet_EnumValue = string "Ansi" | string "RecommendShiftJIS83pv" | string "ShiftJIS90pv" | string "ShiftJIS90ms" | string "GB2312" | string "ChineseBig5" | string "MacintoshCE" | string "MacintoshCyrillic" | string "MacintoshGreek" | string "MacintoshTurkish" | string "WindowsCyrillic" | string "WindowsEE" | string "WindowsGreek" | string "WindowsTurkish" | string "GB18030" | string "KSC5601" | string "WindowsBaltic" | string "WindowsCE" | string "MacintoshRoman" | string "MacintoshCroatian" | string "MacintoshIcelandic" | string "MacintoshRomanian" | string "CyrillicKOI8R" | string "CyrillicKOI8U" | string "CyrillicCP855" | string "DOSLatin2" | string "CyrillicISO" | string "GreekISO" | string "CentralEuropeanISO" | string "TurkishISO" | string "UTF16" | string "UTF8"
+ImportPlatform_EnumValue = string "Macintosh" | string "PC"
+ConvertPageBreaks_EnumValue = string "None" | string "PageBreak" | string "ColumnBreak"
+TagTextExportCharacterSet_EnumValue = string "ASCII" | string "Ansi" | string "Unicode" | string "ShiftJIS" | string "GB18030" | string "KSC5601" | string "ChineseBig5"
+TagTextForm_EnumValue = string "Verbose" | string "Abbreviated"
+StyleConflict_EnumValue = string "PublicationDefinition" | string "TagFileDefinition"
+TextExportCharacterSet_EnumValue = string "DefaultPlatform" | string "UTF16" | string "UTF8"
+ConvertTablesOptions_EnumValue = string "UnformattedTable" | string "UnformattedTabbedText"
+TableFormattingOptions_EnumValue = string "ExcelFormattedTable" | string "ExcelUnformattedTable" | string "ExcelUnformattedTabbedText" | string "ExcelFormatOnlyOnce"
+AlignmentStyleOptions_EnumValue = string "Spreadsheet" | string "LeftAlign" | string "RightAlign" | string "CenterAlign"
+ResolveStyleClash_EnumValue = string "ResolveClashUseExisting" | string "ResolveClashAutoRename" | string "ResolveClashUseNew"
+ContainerType_EnumValue = string "Bag" | string "Seq" | string "Alt"
+CopyrightStatus_EnumValue = string "Unknown" | string "Yes" | string "No"
+IndexCapitalizationOptions_EnumValue = string "SelectedEntry" | string "IncludeSubentries" | string "AllLevel1Entries" | string "AllEntries"
+IndexFormat_EnumValue = string "RuninFormat" | string "NestedFormat"
+CrossReferenceType_EnumValue = string "SeeOrAlsoBracket" | string "See" | string "SeeAlso" | string "SeeHerein" | string "SeeAlsoHerein" | string "CustomCrossReference" | string "CustomCrossReferenceBefore" | string "CustomCrossReferenceAfter"
+PageReferenceType_EnumValue = string "CurrentPage" | string "ToNextStyleChange" | string "ToNextUseOfStyle" | string "ToEndOfStory" | string "ToEndOfDocument" | string "ToEndOfSection" | string "ForNextNParagraphs" | string "ForNextNPages" | string "SuppressPageNumbers"
+HeaderTypes_EnumValue = string "BasicLatin" | string "FinnishSwedish" | string "DanishNorwegian" | string "Spanish" | string "Croatian" | string "Czech" | string "Estonian" | string "Hungarian" | string "Latvian" | string "Lithuanian" | string "Polish" | string "Romanian" | string "Slovak" | string "Slovenian" | string "Turkish" | string "Belarusian" | string "Bulgarian" | string "Russian" | string "Ukrainian" | string "KoreanConsonant" | string "KoreanConsonantPlusVowel" | string "HiraganaAll" | string "HiraganaConsonantsOnly" | string "KatakanaAll" | string "KatakanaConsonantsOnly" | string "ChinesePinyin" | string "ChineseStrokeCount"
+TagTransparency_EnumValue = string "Off" | string "LowQuality" | string "MediumQuality" | string "HighQuality" | string "Default"
+TagVector_EnumValue = string "GrayOut" | string "Proxy" | string "HighResolution" | string "Default"
+TagRaster_EnumValue = string "GrayOut" | string "Proxy" | string "HighResolution" | string "Default"
+HyperlinkAppearanceHighlight_EnumValue = string "None" | string "Invert" | string "Outline" | string "Inset"
+HyperlinkAppearanceWidth_EnumValue = string "Thin" | string "Medium" | string "Thick"
+HyperlinkAppearanceStyle_EnumValue = string "Solid" | string "Dashed"
+HyperlinkDestinationPageSetting_EnumValue = string "Fixed" | string "FitView" | string "FitWindow" | string "FitWidth" | string "FitHeight" | string "FitVisible" | string "InheritZoom"
+BuildingBlockTypes_EnumValue = string "CustomStringBuildingBlock" | string "FileNameBuildingBlock" | string "ChapterNumberBuildingBlock" | string "PageNumberBuildingBlock" | string "FullParagraphBuildingBlock" | string "ParagraphNumberBuildingBlock" | string "ParagraphTextBuildingBlock" | string "BookmarkNameBuildingBlock"
+PreflightRuleFlag_EnumValue = string "RuleIsDisabled" | string "ReturnAsError" | string "ReturnAsWarning" | string "ReturnAsInformational"
+RuleDataType_EnumValue = string "IntegerDataType" | string "ShortIntegerDataType" | string "RealDataType" | string "StringDataType" | string "BooleanDataType" | string "ObjectDataType" | string "ListDataType"
+PreflightScopeOptions_EnumValue = string "PreflightAllPages" | string "PreflightSelectedDocuments" | string "PreflightAllDocuments"
+PreflightLayerOptions_EnumValue = string "PreflightAllLayers" | string "PreflightVisibleLayers" | string "PreflightVisiblePrintableLayers"
+PreflightProfileOptions_EnumValue = string "UseEmbeddedProfile" | string "UseWorkingProfile"
+StateTypes_EnumValue = string "Up" | string "Rollover" | string "Down"
+VisibilityInPdf_EnumValue = string "VisibleInPdf" | string "HiddenInPdf" | string "VisibleButDoesNotPrintInPdf" | string "HiddenButPrintableInPdf"
+FloatingWindowPosition_EnumValue = string "UpperLeft" | string "UpperMiddle" | string "UpperRight" | string "CenterLeft" | string "Center" | string "CenterRight" | string "LowerLeft" | string "LowerMiddle" | string "LowerRight"
+FloatingWindowSize_EnumValue = string "OneFifth" | string "OneFourth" | string "OneHalf" | string "Full" | string "Double" | string "Triple" | string "Quadruple" | string "Max"
+PlayMode_EnumValue = string "Once" | string "StayOpen" | string "RepeatPlay"
+MoviePosterTypes_EnumValue = string "None" | string "Standard" | string "FromMovie" | string "ProxyImage"
+SoundPosterTypes_EnumValue = string "None" | string "Standard" | string "ProxyImage"
+BehaviorEvents_EnumValue = string "MouseUp" | string "MouseDown" | string "MouseEnter" | string "MouseExit" | string "OnFocus" | string "OnBlur"
+GoToZoomOptions_EnumValue = string "InheritZoom" | string "FitWindow" | string "FitWidth" | string "FitVisible" | string "ActualSize"
+PlayOperations_EnumValue = string "Play" | string "Stop" | string "Pause" | string "Resume"
+ViewZoomStyle_EnumValue = string "FullScreen" | string "ZoomIn" | string "ZoomOut" | string "FitPage" | string "ActualSize" | string "FitWidth" | string "FitVisible" | string "Reflow" | string "SinglePage" | string "OneColumn" | string "TwoColumn" | string "RotateCW" | string "RotateCCW"
+VersionState_EnumValue = string "VersionUnknown" | string "ProjectFileNewer" | string "LocalProjectMatch" | string "LocalNewer" | string "VersionConflict" | string "NoResource"
+EditingState_EnumValue = string "EditingUnknown" | string "EditingNowhere" | string "EditingRemotely" | string "EditingLocally" | string "EditingLocallyLocked" | string "EditingConflict"
+VersionCueSyncStatus_EnumValue = string "FileDownloaded" | string "FileUploaded" | string "FileUnlocked" | string "FileSkipped" | string "FileNoChange"
+SyncConflictResolution_EnumValue = string "SkipConflicts" | string "AskAboutConflicts" | string "PreferLocal" | string "PreferProject"
+UserInteractionLevels_EnumValue = string "NeverInteract" | string "InteractWithAll" | string "InteractWithAlerts"
+Locale_EnumValue = string "DanishLocale" | string "EnglishLocale" | string "InternationalEnglishLocale" | string "FinnishLocale" | string "FrenchLocale" | string "GermanLocale" | string "ItalianLocale" | string "PortugueseLocale" | string "SpanishLocale" | string "SwedishLocale" | string "JapaneseLocale" | string "ArabicLocale" | string "CzechLocale" | string "GreekLocale" | string "HebrewLocale" | string "HungarianLocale" | string "PolishLocale" | string "RomanianLocale" | string "RussianLocale" | string "TurkishLocale" | string "UkrainianLocale" | string "KoreanLocale" | string "SimplifiedChineseLocale" | string "TraditionalChineseLocale"
+ScriptLanguage_EnumValue = string "Unknown" | string "Javascript" | string "ApplescriptLanguage"
+FeatureSetOptions_EnumValue = string "Roman" | string "Japanese"
+UndoModes_EnumValue = string "ScriptRequest" | string "EntireScript" | string "AutoUndo" | string "FastEntireScript"
+SaveOptions_EnumValue = string "No" | string "Ask" | string "Yes"
+ZoomOptions_EnumValue = string "ZoomIn" | string "ZoomOut" | string "FitSpread" | string "FitPage" | string "ShowPasteboard" | string "ActualSize"
+ViewDisplaySettings_EnumValue = string "HighQuality" | string "Typical" | string "Optimized"
+AnchorPoint_EnumValue = string "TopLeftAnchor" | string "TopCenterAnchor" | string "TopRightAnchor" | string "LeftCenterAnchor" | string "CenterAnchor" | string "RightCenterAnchor" | string "BottomLeftAnchor" | string "BottomCenterAnchor" | string "BottomRightAnchor"
+ColorModel_EnumValue = string "Spot" | string "Process" | string "Registration" | string "Mixedinkmodel"
+ColorSpace_EnumValue = string "RGB" | string "CMYK" | string "LAB" | string "MixedInk" | string "NoAlternateColor"
+ColorOverride_EnumValue = string "Normal" | string "Specialpaper" | string "Specialblack" | string "Specialregistration" | string "Hiddenreserved" | string "Mixedinkparent"
+ScreenModeOptions_EnumValue = string "PreviewOff" | string "PreviewToPage" | string "PreviewToBleed" | string "PreviewToSlug"
+PageNumberingOptions_EnumValue = string "Section" | string "Absolute"
+ToolTipOptions_EnumValue = string "Normal" | string "None" | string "Fast"
+SelectionOptions_EnumValue = string "AddTo" | string "RemoveFrom" | string "ReplaceWith"
+SelectAll_EnumValue = string "All"
+PreviewSizeOptions_EnumValue = string "Small" | string "Medium" | string "Large" | string "ExtraLarge"
+ToolsPanelOptions_EnumValue = string "SingleColumn" | string "DoubleColumn" | string "SingleRow"
+RenderingIntent_EnumValue = string "UseColorSettings" | string "Perceptual" | string "Saturation" | string "RelativeColorimetric" | string "AbsoluteColorimetric"
+MarkLineWeight_EnumValue = string "P125pt" | string "P25pt" | string "P50pt" | string "P05mm" | string "P07mm" | string "P10mm" | string "P15mm" | string "P20mm" | string "P30mm"
+MarkTypes_EnumValue = string "Default" | string "JMarkWithCircle" | string "JMarkWithoutCircle"
+ColorOutputModes_EnumValue = string "CompositeLeaveUnchanged" | string "CompositeGray" | string "CompositeRGB" | string "CompositeCMYK" | string "Separations" | string "InRIPSeparations"
+DataFormat_EnumValue = string "ASCII" | string "Binary"
+Flip_EnumValue = string "None" | string "Horizontal" | string "Vertical" | string "HorizontalAndVertical" | string "Both"
+FontDownloading_EnumValue = string "None" | string "Complete" | string "Subset" | string "SubsetLarge"
+PagePositions_EnumValue = string "UpperLeft" | string "CenterHorizontally" | string "CenterVertically" | string "Centered"
+PostScriptLevels_EnumValue = string "Level2" | string "Level3"
+PrintPageOrientation_EnumValue = string "Portrait" | string "Landscape" | string "ReversePortrait" | string "ReverseLandscape"
+ImageDataTypes_EnumValue = string "AllImageData" | string "OptimizedSubsampling" | string "ProxyImageData" | string "None"
+Sequences_EnumValue = string "All" | string "Odd" | string "Even"
+SourceSpaces_EnumValue = string "UseDocument" | string "ProofSpace"
+ThumbsPerPage_EnumValue = string "K1x2" | string "K2x2" | string "K3x3" | string "K4x4" | string "K5x5" | string "K6x6" | string "K7x7"
+TilingTypes_EnumValue = string "Auto" | string "AutoJustified" | string "Manual"
+Trapping_EnumValue = string "Off" | string "ApplicationBuiltin" | string "AdobeInRIP"
+InkTypes_EnumValue = string "Normal" | string "Opaque" | string "Transparent" | string "OpaqueIgnore"
+PrinterPresetTypes_EnumValue = string "Default" | string "Custom"
+ColorRenderingDictionary_EnumValue = string "Default" | string "UseDocument" | string "Working"
+PageRange_EnumValue = string "AllPages"
+PaperSize_EnumValue = string "Auto"
+PPDValues_EnumValue = string "DeviceIndependent"
+Profile_EnumValue = string "PostScriptCMS" | string "UseDocument" | string "Working" | string "NoCMS"
+Screeening_EnumValue = string "Default" | string "Custom"
+PaperSizes_EnumValue = string "DefinedByDriver" | string "Custom"
+Printer_EnumValue = string "PostscriptFile"
+TrapImagePlacementTypes_EnumValue = string "CenterEdges" | string "Choke" | string "ImageNeutralDensity" | string "ImagesOverSpread"
+TrapEndTypes_EnumValue = string "MiterTrapEnds" | string "OverlapTrapEnds"
+EPSImageData_EnumValue = string "AllImageData" | string "ProxyImageData"
+BookletTypeOptions_EnumValue = string "TwoUpSaddleStitch" | string "TwoUpPerfectBound" | string "TwoUpConsecutive" | string "ThreeUpConsecutive" | string "FourUpConsecutive"
+SignatureSizeOptions_EnumValue = string "SignatureSize4" | string "SignatureSize8" | string "SignatureSize12" | string "SignatureSize16" | string "SignatureSize32"
+DocumentPrintUiOptions_EnumValue = string "SuppressPrintProgress" | string "SuppressPrintWarnings" | string "SuppressPrintDialog" | string "SuppressFileSaveDialog"
+NoteBackgrounds_EnumValue = string "GalleyBackgroundColor" | string "UseNoteColor"
+NoteColorChoices_EnumValue = string "UseUserColor" | string "UseNotePrefColor"
+LockStateValues_EnumValue = string "None" | string "UnmanagedStory" | string "CheckedInStory" | string "CheckedOutStory" | string "LockedStory" | string "EmbeddedStory" | string "MissingLockState" | string "MixedLockState"
+ExportRangeOrAllPages_EnumValue = string "ExportRange" | string "ExportAll"
+SnippetExportFormats_EnumValue = string "InxTraditionalFormat" | string "InxExpandedFormat"
+RecordSelection_EnumValue = string "AllRecords" | string "OneRecord" | string "Range"
+ArrangeBy_EnumValue = string "RowsFirst" | string "ColumnsFirst"
+RecordsPerPage_EnumValue = string "SingleRecord" | string "MultipleRecord"
+Fitting_EnumValue = string "Proportional" | string "FitContentToFrame" | string "FitFrameToContent" | string "PreserveSizes" | string "FillProportional"
+DataSourceType_EnumValue = string "CommaSeparated" | string "TabDelimited"
+SourceFieldType_EnumValue = string "TextField" | string "ImageField"
+ListType_EnumValue = string "NoList" | string "BulletList" | string "NumberedList"
+BulletCharacterType_EnumValue = string "UnicodeOnly" | string "UnicodeWithFont" | string "GlyphWithFont"
+NumberingStyle_EnumValue = string "UpperRoman" | string "LowerRoman" | string "UpperLetters" | string "LowerLetters" | string "Arabic" | string "Kanji" | string "KatakanaModern" | string "KatakanaTraditional" | string "FormatNone" | string "SingleLeadingZeros" | string "DoubleLeadingZeros" | string "TripleLeadingZeros"
+RestartPolicy_EnumValue = string "AnyPreviousLevel" | string "AfterSpecificLevel" | string "RangeOfLevels"
+ListAlignment_EnumValue = string "LeftAlign" | string "CenterAlign" | string "RightAlign"
+ChapterNumberSources_EnumValue = string "UserDefined" | string "ContinueFromPreviousDocument" | string "SameAsPreviousDocument"
+AssignmentExportOptions_EnumValue = string "EmptyFrames" | string "AssignedSpreads" | string "Everything"
+AssignmentStatus_EnumValue = string "AssignmentUpToDate" | string "AssignmentOutOfDate" | string "AssignmentFileMissing"
+PanningTypes_EnumValue = string "NoGreeking" | string "GreekImages" | string "GreekImagesAndText"
+AlignDistributeBounds_EnumValue = string "ItemBounds" | string "PageBounds" | string "MarginBounds" | string "SpreadBounds"
+AlignOptions_EnumValue = string "LeftEdges" | string "TopEdges" | string "RightEdges" | string "BottomEdges" | string "HorizontalCenters" | string "VerticalCenters"
+DistributeOptions_EnumValue = string "LeftEdges" | string "TopEdges" | string "RightEdges" | string "BottomEdges" | string "HorizontalCenters" | string "VerticalCenters" | string "HorizontalSpace" | string "VerticalSpace"
+PerformanceMetricOptions_EnumValue = string "CPUTime" | string "NumberOfThreads" | string "OverallSystemCPU" | string "OverallUserCPU" | string "CoreAllocationCount" | string "CoreMemorySize" | string "ResidentMemorySize" | string "VirtualMemorySize" | string "CurrentMemoryMark" | string "HandleCount" | string "GDIObjectCount" | string "HeapAllocations" | string "HeapAllocationsPeak" | string "MemoryPurgeCount" | string "MemoryPurgeTime" | string "BIBAllocations" | string "BIBAllocationsPeak" | string "BIBCache" | string "BIBCachePeak" | string "PDFAllocactions" | string "PDFAllocactionsPeak" | string "ImageCacheAllocations" | string "ImageCacheAllocationsPeak" | string "ImageCacheFileBytesRead" | string "ImageCacheFileBytesWritten" | string "ImageCacheFileReadTime" | string "ImageCacheFileWriteTime" | string "VXferAlloc" | string "VXferAllocPeak" | string "VXferBytesRead" | string "VXferBytesWritten" | string "VXferReadTime" | string "VXferWriteTime" | string "VXferFileBytesRead" | string "VXFerFileBytesWritten" | string "ProcessIOBytesRead" | string "ProcessIOBytesWritten" | string "AGMXShowTime" | string "DatabaseFileBytesRead" | string "DatabaseFileBytesWritten" | string "DatabaseFileReadTime" | string "DatabaseFileWriteTime" | string "DropShadowMemoryReadTime" | string "DropShadowMemoryReadBytes" | string "DropShadowMemoryWriteTime" | string "DropShadowMemoryWriteBytes" | string "DropShadowFileReadTime" | string "DropShadowFileReadBytes" | string "DropShadowFileWriteTime" | string "DropShadowFileWriteBytes" | string "ChangeManagerUpdateCallCount" | string "ChangeManagerUpdateCallTime" | string "SnapshotCount" | string "GalleyCompositionTime" | string "LayoutCompositionTime" | string "GalleyCompositionCount" | string "LayoutCompositionCount" | string "DrawManagerDrawTime" | string "DrawManagerNumberOfInterrupts" | string "SnapshotReadWriteTime" | string "NewSnapshotTime" | string "DatabaseNewUIDCount" | string "DatabaseInstantiateCount" | string "InstanceCachePurgeCount" | string "MinisaveCount" | string "XMPFilterTime" | string "SnapshotReadWriteByteCount" | string "DatabaseFilePageReads"
+XFLRasterizeFormatOptions_EnumValue = string "JPEG" | string "GIF" | string "PNG" | string "Automatic"
+PageTransitionTypeOptions_EnumValue = string "None" | string "BlindsTransition" | string "BoxTransition" | string "CombTransition" | string "CoverTransition" | string "DissolveTransition" | string "FadeTransition" | string "PageTurnTransition" | string "PushTransition" | string "SplitTransition" | string "UncoverTransition" | string "WipeTransition" | string "ZoomInTransition" | string "ZoomOutTransition"
+PageTransitionDirectionOptions_EnumValue = string "NotApplicable" | string "Down" | string "RightToLeft" | string "LeftDown" | string "LeftUp" | string "LeftToRight" | string "RightDown" | string "RightUp" | string "Up" | string "In" | string "Out" | string "Horizontal" | string "Vertical" | string "HorizontalIn" | string "HorizontalOut" | string "VerticalIn" | string "VerticalOut"
+RasterCompressionOptions_EnumValue = string "JPEGCompression" | string "LosslessCompression" | string "AutomaticCompression"
+DynamicDocumentsJPEGQualityOptions_EnumValue = string "Minimum" | string "Low" | string "Medium" | string "High" | string "Maximum"
+DynamicDocumentsTextExportPolicy_EnumValue = string "Live" | string "Rasterize" | string "Vectorize"
+FitMethodSettings_EnumValue = string "FitPredefinedSettings" | string "FitGivenWidthAndHeight" | string "FitGivenScalePercentage"
+FitDimension_EnumValue = string "Fit1280x800" | string "Fit1240x620" | string "Fit1024x768" | string "Fit984x588" | string "Fit800x600" | string "Fit760x420" | string "Fit640x480" | string "Fit600x300"
+PageTransitionDurationOptions_EnumValue = string "Fast" | string "Medium" | string "Slow"
+SWFCurveQualityValue_EnumValue = string "Minimum" | string "Low" | string "Medium" | string "High" | string "Maximum"
+ConditionIndicatorMethod_EnumValue = string "UseUnderline" | string "UseHighlight"
+ConditionUnderlineIndicatorAppearance_EnumValue = string "Wavy" | string "Solid" | string "Dashed"
+ConditionIndicatorMode_EnumValue = string "ShowIndicators" | string "ShowAndPrintIndicators" | string "HideIndicators"
+ParagraphDirectionOptions_EnumValue = string "LeftToRightDirection" | string "RightToLeftDirection"
+ParagraphJustificationOptions_EnumValue = string "DefaultJustification" | string "ArabicJustification" | string "NaskhJustification"
+CharacterDirectionOptions_EnumValue = string "DefaultDirection" | string "LeftToRightDirection" | string "RightToLeftDirection"
+DigitsTypeOptions_EnumValue = string "DefaultDigits" | string "ArabicDigits" | string "HindiDigits" | string "FarsiDigits" | string "NativeDigits" | string "FullFarsiDigits" | string "ThaiDigits" | string "LaoDigits" | string "DevanagariDigits" | string "BengaliDigits" | string "GurmukhiDigits" | string "GujaratiDigits" | string "OriyaDigits" | string "TamilDigits" | string "TeluguDigits" | string "KannadaDigits" | string "MalayalamDigits" | string "TibetanDigits" | string "KhmerDigits" | string "BurmeseDigits"
+KashidasOptions_EnumValue = string "DefaultKashidas" | string "KashidasOff"
+DiacriticPositionOptions_EnumValue = string "DefaultPosition" | string "LoosePosition" | string "MediumPosition" | string "TightPosition" | string "OpentypePosition"
+TableDirectionOptions_EnumValue = string "LeftToRightDirection" | string "RightToLeftDirection"
+
+
+# A geometry path that contains the number of path points in the path, a list of all the path points, and whether the path is open.
+GeometryPathType_TypeDef = 
+  attribute PathOpen { xsd:boolean },
+  element PathPointArray { element PathPointType { PathPointType_TypeDef }* 
+  }
+
+# A point in the form (x, y).
+XyPointType_TypeDef = list { xsd:double ,xsd:double } 
+
+# An InDesign path point containing (anchor point, left direction point, right direction point).
+PathPointType_TypeDef = 
+  attribute Anchor { XyPointType_TypeDef },
+  attribute LeftDirection { XyPointType_TypeDef },
+  attribute RightDirection { XyPointType_TypeDef }
+
+# The bounds of a rectangle in the form [left, top, right, bottom].
+RectangleBoundsType_TypeDef = 
+  attribute Left { xsd:double },
+  attribute Top { xsd:double },
+  attribute Right { xsd:double },
+  attribute Bottom { xsd:double }
+
+# A transformation matrix in the form (a, b, c, d, e, f).
+TransformationMatrixType_TypeDef = list { xsd:double ,xsd:double ,xsd:double ,xsd:double ,xsd:double ,xsd:double } 
+
+# An override mojikumi aki.
+OverrideMojikumiAkiType_TypeDef = 
+  attribute TargetMojikumiClass { xsd:short },
+  attribute SideMojikumiClass { xsd:short },
+  attribute SideIsAfterTarget { xsd:boolean },
+  attribute Minimum { xsd:double },
+  attribute Desired { xsd:double },
+  attribute Maximum { xsd:double },
+  attribute CompressionPriority { xsd:short },
+  attribute AkiDoesNotFloat { xsd:boolean }
+
+# A key value pair.
+KeyValuePair_TypeDef = 
+  attribute Key { xsd:string },
+  attribute Value { xsd:string }
+
+# Properties or parameters using the InDesign UI Colors enumeration use this to specify the type as either one of the enumerated UI colors or a list of RGB values for a custom color.
+InDesignUIColorType_TypeDef = 
+  (list_type, 
+  element ListItem { double_type, xsd:double {minInclusive="0" maxInclusive="255"} },
+  element ListItem { double_type, xsd:double {minInclusive="0" maxInclusive="255"} },
+  element ListItem { double_type, xsd:double {minInclusive="0" maxInclusive="255"} }) |
+  (enum_type, UIColors_EnumValue )
+
+# A point specified in unit type in the form (x, y).
+UnitPointType_TypeDef = list { xsd:double ,xsd:double } 
+
+# The bounds of a rectangle specified in unit type in the form [top, left, bottom, right].
+UnitRectangleBoundsType_TypeDef = 
+  attribute Top { xsd:double },
+  attribute Left { xsd:double },
+  attribute Bottom { xsd:double },
+  attribute Right { xsd:double }
+
+# Properties or parameters using the InCopy UI Colors enumeration use this to specify the type as either one of the enumerated UI colors or a list of RGB values for a custom color.
+InCopyUIColorType_TypeDef = 
+  (list_type, 
+  element ListItem { double_type, xsd:double {minInclusive="0" maxInclusive="255"} },
+  element ListItem { double_type, xsd:double {minInclusive="0" maxInclusive="255"} },
+  element ListItem { double_type, xsd:double {minInclusive="0" maxInclusive="255"} }) |
+  (enum_type, InCopyUIColors_EnumValue )
+
+# A name value pair
+NameValuePair_TypeDef = 
+  attribute Name { xsd:string },
+  attribute Value { xsd:string }
+
+# Index header group.
+IndexHeaderGroupType_TypeDef = 
+  attribute InternalName { xsd:string },
+  attribute UIString { xsd:string },
+  attribute DocumentString { xsd:string },
+  attribute Visibility { xsd:boolean },
+  element SectionHeaderArray { element SectionHeaderType { SectionHeaderType_TypeDef }* 
+  }
+
+# Index section header.
+SectionHeaderType_TypeDef = 
+  attribute SortingHeaderString { xsd:string },
+  attribute DocumentHeaderString { xsd:string },
+  attribute UIHeaderString { xsd:string },
+  attribute Language { xsd:int }
+
+# Index instance.
+IndexInstanceType_TypeDef = 
+  attribute Name { xsd:string },
+  attribute Story { xsd:string }
+
+# The preflight error results for a single node, consisting of up to three strings describing error info for that node.
+PreflightErrorNodeType_TypeDef = 
+  attribute ParentNodeID { xsd:int },
+  attribute ErrorName { xsd:string },
+  attribute PageNumber { xsd:string },
+  attribute ErrorInfo { xsd:string },
+  element ErrorDetail { element PreflightErrorInfoType { PreflightErrorInfoType_TypeDef }* 
+  }
+
+# The preflight results.
+PreflightResultsType_TypeDef = 
+  attribute DocumentName { xsd:string },
+  attribute ProfileName { xsd:string },
+  element Results { element PreflightErrorNodeType { PreflightErrorNodeType_TypeDef }* 
+  }
+
+# preflight error detail info type
+PreflightErrorInfoType_TypeDef = 
+  attribute Label { xsd:string },
+  attribute Description { xsd:string }
+
+# preflight rule data base list type
+PreflightRuleDataBaseListType_TypeDef = list_type, element ListItem { 
+    (string_type, xsd:string ) |
+    (double_type, xsd:double ) |
+    (long_type, xsd:int ) |
+    (short_type, xsd:short ) |
+    (bool_type, xsd:boolean ) |
+    (object_type, xsd:string )
+  }* 
+
+# preflight rule data list type
+PreflightRuleDataListType_TypeDef = list_type, element ListItem { 
+    list_type, element PreflightRuleDataBaseListType { PreflightRuleDataBaseListType_TypeDef }* 
+  }* 
+
+# A condition verses it's visibility
+VisibilityPair_TypeDef = 
+  attribute Condition { xsd:string },
+  attribute Visibility { xsd:boolean }
+
+}

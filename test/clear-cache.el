@@ -1,0 +1,40 @@
+(require 'genrnc)
+(require 'el-expectations)
+
+(expectations
+  (desc "clear-cache answer no")
+  (expect t
+    (let* ((genrnc--index-count 99)
+           (genrnc--own-directory "hoge")
+           (genrnc--defined-typeid-list '("SpringFrameWork Tool"))
+           (genrnc--hash-namespace-files (make-hash-table :test 'equal))
+           (genrnc--hash-schema-cache (make-hash-table :test 'equal)))
+      (puthash "ns" "nsvalue" genrnc--hash-namespace-files)
+      (puthash "s" "schema" genrnc--hash-schema-cache)
+      (stub y-or-n-p => nil)
+      (genrnc-clear-cache)
+      (and (= genrnc--index-count 99)
+           (string= genrnc--own-directory "hoge")
+           (= (length genrnc--defined-typeid-list) 1)
+           (string= (pop genrnc--defined-typeid-list) "SpringFrameWork Tool")
+           (string= (gethash "ns" genrnc--hash-namespace-files) "nsvalue")
+           (string= (gethash "s" genrnc--hash-schema-cache) "schema")))))
+
+(expectations
+  (desc "clear-cache answer yes")
+  (expect t
+    (let* ((genrnc--index-count 99)
+           (genrnc--own-directory "hoge")
+           (genrnc--defined-typeid-list '("SpringFrameWork Tool"))
+           (genrnc--hash-namespace-files (make-hash-table :test 'equal))
+           (genrnc--hash-schema-cache (make-hash-table :test 'equal)))
+      (puthash "ns" "nsvalue" genrnc--hash-namespace-files)
+      (puthash "s" "schema" genrnc--hash-schema-cache)
+      (stub y-or-n-p => t)
+      (genrnc-clear-cache)
+      (and (= genrnc--index-count 0)
+           (null genrnc--own-directory)
+           (null genrnc--defined-typeid-list)
+           (null (gethash "ns" genrnc--hash-namespace-files))
+           (null (gethash "s" genrnc--hash-schema-cache))))))
+

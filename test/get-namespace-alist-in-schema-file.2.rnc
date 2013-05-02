@@ -1,0 +1,1733 @@
+default namespace = "http://www.springframework.org/schema/hadoop"
+namespace a = "http://relaxng.org/ns/compatibility/annotations/1.0"
+namespace beans = "http://www.springframework.org/schema/beans"
+namespace rng = "http://relaxng.org/ns/structure/1.0"
+namespace tool = "http://www.springframework.org/schema/tool"
+namespace xsd = "http://www.w3.org/2001/XMLSchema"
+namespace xsi = "http://www.w3.org/2001/XMLSchema-instance"
+
+org.springframework.www.schema.hadoop.entryType &= empty
+org.springframework.www.schema.hadoop.entryType &= empty
+org.springframework.www.schema.hadoop.entryType &= empty
+org.springframework.www.schema.hadoop.scriptWithArgumentsType &= empty
+org.springframework.www.schema.hadoop.scriptWithArgumentsType &= empty
+org.springframework.www.schema.hadoop.scriptType &= empty
+org.springframework.www.schema.hadoop.scriptType &= empty
+org.springframework.www.schema.beans.propertyType &= empty
+org.springframework.www.schema.hadoop.propertiesConfigurableType &=
+  empty
+org.springframework.www.schema.hadoop.propertiesConfigurableType &=
+  empty
+org.springframework.www.schema.hadoop.jobType &= empty
+org.springframework.www.schema.hadoop.jobType &= empty
+org.springframework.www.schema.hadoop.propertiesConfigurableType &=
+  empty
+org.springframework.www.schema.hadoop.toolRunnerType &= empty
+org.springframework.www.schema.hadoop.toolRunnerType &= empty
+org.springframework.www.schema.hadoop.scriptType &= empty
+org.springframework.www.schema.hadoop.propertiesConfigurableType &=
+  empty
+org.springframework.www.schema.hadoop.propertiesConfigurableType &=
+  empty
+org.springframework.www.schema.hadoop.propertiesConfigurableType &=
+  empty
+org.springframework.www.schema.hadoop.scriptingType &= empty
+org.springframework.www.schema.hadoop.scriptingType &= empty
+include "16.rnc" inherit = beans
+include "13.rnc" inherit = beans
+include "9.rnc" inherit = beans
+include "17.rnc" inherit = tool
+include "14.rnc" inherit = tool
+include "11.rnc" inherit = tool
+a:documentation [
+  "\x{a}" ~
+  "		\x{a}" ~
+  "Defines the configuration elements for Spring Data Hadoop.\x{a}" ~
+  "		\x{a}" ~
+  "	"
+]
+start |= org.springframework.www.schema.hadoop.tasklet
+org.springframework.www.schema.hadoop.tasklet &=
+  [
+    a:documentation [
+      "\x{a}" ~
+      "		   \x{a}" ~
+      "Defines a Spring Batch tasklet for Hadoop Jobs.\x{a}" ~
+      "				\x{a}" ~
+      "          \x{a}" ~
+      "	      \x{a}" ~
+      "	        "
+      tool:annotation [
+        "\x{a}" ~
+        "	          "
+        tool:exports [
+          type =
+            "org.springframework.data.hadoop.mapreduce.HadoopTasklet"
+        ]
+        "\x{a}" ~
+        "	        "
+      ]
+      "\x{a}" ~
+      "	      \x{a}" ~
+      "		"
+    ]
+  ]
+  element tasklet {
+    # the job reference
+    [
+      a:documentation [
+        "\x{a}" ~
+        "				\x{a}" ~
+        "Hadoop Job\x{a}" ~
+        "				\x{a}" ~
+        "					"
+        tool:annotation [
+          kind = "ref"
+          "\x{a}" ~
+          "						"
+          tool:expected-type [
+            type = "org.apache.hadoop.mapreduce.Job"
+          ]
+          "\x{a}" ~
+          "					"
+        ]
+        "\x{a}" ~
+        "				\x{a}" ~
+        "			"
+      ]
+    ]
+    attribute job-ref { text }
+    >> a:documentation [
+         "\x{a}" ~
+         "            default value is : true"
+       ],
+    [ a:defaultValue = "true" ]
+    attribute wait-for-job {
+      xsd:string
+      >> a:documentation [
+           "\x{a}" ~
+           "				\x{a}" ~
+           "Whether to synchronously wait for the job to finish (the default) or not.\x{a}" ~
+           "				\x{a}" ~
+           "			"
+         ]
+    }?,
+    attribute id { xsd:ID },
+    attribute scope { xsd:string }?
+  }
+# common attributes shared by properties based configurations 
+# NOT meant for extensibility - do NOT rely on this type as it might be removed in the future
+org.springframework.www.schema.hadoop.propertiesConfigurableType &=
+  attribute properties-ref {
+    xsd:string
+    >> a:documentation [
+         "\x{a}" ~
+         "				\x{a}" ~
+         "Reference to a Properties object.\x{a}" ~
+         "				\x{a}" ~
+         "				\x{a}" ~
+         "					"
+         tool:annotation [
+           kind = "ref"
+           "\x{a}" ~
+           "						"
+           tool:expected-type [ type = "java.util.Properties" ]
+           "\x{a}" ~
+           "					"
+         ]
+         "\x{a}" ~
+         "				\x{a}" ~
+         "			"
+       ]
+  },
+  attribute properties-location {
+    xsd:string
+    >> a:documentation [
+         "\x{a}" ~
+         "				\x{a}" ~
+         "Properties location(s). Multiple locations can be specified using comma (,) as a separator.\x{a}" ~
+         "				\x{a}" ~
+         "			"
+       ]
+  }
+start |= org.springframework.www.schema.hadoop.configuration
+org.springframework.www.schema.hadoop.configuration &=
+  [
+    a:documentation [
+      "\x{a}" ~
+      "		   \x{a}" ~
+      "Defines a Hadoop Configuration.\x{a}" ~
+      "				\x{a}" ~
+      "	      \x{a}" ~
+      "	        "
+      tool:annotation [
+        "\x{a}" ~
+        "	          "
+        tool:exports [ type = "org.apache.hadoop.conf.Configuration" ]
+        "\x{a}" ~
+        "	        "
+      ]
+      "\x{a}" ~
+      "	      \x{a}" ~
+      "		"
+    ]
+  ]
+  element configuration {
+    org.springframework.www.schema.hadoop.propertiesConfigurableType,
+    attribute id {
+      xsd:ID
+      >> a:documentation [
+           "\x{a}" ~
+           "				\x{a}" ~
+           'Bean id (default is "hadoop-configuration").\x{a}' ~
+           "				\x{a}" ~
+           "				"
+         ]
+    }?,
+    [
+      a:documentation [
+        "\x{a}" ~
+        "						\x{a}" ~
+        "Reference to another Hadoop configuration (useful for chaining)\x{a}" ~
+        "						\x{a}" ~
+        "							"
+        tool:annotation [
+          kind = "ref"
+          "\x{a}" ~
+          "								"
+          tool:expected-type [
+            type = "org.apache.hadoop.conf.Configuration"
+          ]
+          "\x{a}" ~
+          "							"
+        ]
+        "\x{a}" ~
+        "						\x{a}" ~
+        "			 	"
+      ]
+    ]
+    attribute configuration-ref { text },
+    [
+      a:documentation [
+        "\x{a}" ~
+        "						\x{a}" ~
+        "Hadoop Configuration resources. Multiple resources can be specified, using comma (,) as a separator.\x{a}" ~
+        "						\x{a}" ~
+        "							"
+        tool:annotation [
+          kind = "direct"
+          "\x{a}" ~
+          "								"
+          tool:expected-type [
+            type = "org.springframework.core.io.Resource[]"
+          ]
+          "\x{a}" ~
+          "							"
+        ]
+        "\x{a}" ~
+        "						\x{a}" ~
+        "			 	"
+      ]
+    ]
+    attribute resources { text }
+    >> a:documentation [
+         "\x{a}" ~
+         "            default value is : false"
+       ],
+    
+    ## 
+    ##				
+    ## Registers an HDFS url handler in the running VM. Note that this operation can be executed at most once
+    ## in a given JVM hence the default is false.
+    ##				
+    ##				
+    [ a:defaultValue = "false" ]
+    attribute register-url-handler { text }?
+  }
+start |= org.springframework.www.schema.hadoop.resource-loader
+org.springframework.www.schema.hadoop.resource-loader &=
+  [
+    a:documentation [
+      "\x{a}" ~
+      "		   \x{a}" ~
+      "Defines a HDFS-aware resource loader.\x{a}" ~
+      "				\x{a}" ~
+      "          \x{a}" ~
+      "	      \x{a}" ~
+      "	        "
+      tool:annotation [
+        "\x{a}" ~
+        "	          "
+        tool:exports [
+          type = "org.springframework.data.hadoop.fs.HdfsResourceLoader"
+        ]
+        "\x{a}" ~
+        "	        "
+      ]
+      "\x{a}" ~
+      "	      \x{a}" ~
+      "		"
+    ]
+  ]
+  element resource-loader {
+    (attribute id {
+       xsd:ID
+       >> a:documentation [
+            "\x{a}" ~
+            "		\x{a}" ~
+            'Bean id (default is "hadoop-resource-loader").\x{a}' ~
+            "		\x{a}" ~
+            "		"
+          ]
+     }?)
+    >> a:documentation [
+         "\x{a}" ~
+         "            default value is : hadoop-configuration"
+       ],
+    [
+      a:defaultValue = "hadoop-configuration"
+      a:documentation [
+        "\x{a}" ~
+        "				\x{a}" ~
+        "Reference to the Hadoop Configuration. Defaults to 'hadoop-configuration'.\x{a}" ~
+        "				\x{a}" ~
+        "					"
+        tool:annotation [
+          kind = "ref"
+          "\x{a}" ~
+          "						"
+          tool:expected-type [
+            type = "org.apache.hadoop.conf.Configuration"
+          ]
+          "\x{a}" ~
+          "					"
+        ]
+        "\x{a}" ~
+        "				\x{a}" ~
+        "	 	"
+      ]
+    ]
+    attribute configuration-ref { text }?,
+    attribute uri { text }?
+  }
+# common attributes shared by properties based configurations 
+# NOT meant for extensibility - do NOT rely on this type as it might be removed in the future
+org.springframework.www.schema.hadoop.jobType &=
+  org.springframework.www.schema.hadoop.propertiesConfigurableType,
+  attribute id { xsd:ID },
+  attribute scope { xsd:string }?,
+  [
+    a:documentation [
+      "\x{a}" ~
+      "			\x{a}" ~
+      "				"
+      tool:annotation [
+        kind = "direct"
+        "\x{a}" ~
+        "					"
+        tool:expected-type [ type = "java.lang.Class" ]
+        "\x{a}" ~
+        "					"
+        tool:assignable-to [
+          type = "org.apache.hadoop.mapreduce.Mapper"
+        ]
+        "\x{a}" ~
+        "				"
+      ]
+      "\x{a}" ~
+      "			\x{a}" ~
+      "	 	"
+    ]
+  ]
+  attribute mapper { text },
+  [
+    a:documentation [
+      "\x{a}" ~
+      "			\x{a}" ~
+      "				"
+      tool:annotation [
+        kind = "direct"
+        "\x{a}" ~
+        "					"
+        tool:expected-type [ type = "java.lang.Class" ]
+        "\x{a}" ~
+        "					"
+        tool:assignable-to [
+          type = "org.apache.hadoop.mapreduce.Reducer"
+        ]
+        "\x{a}" ~
+        "				"
+      ]
+      "\x{a}" ~
+      "			\x{a}" ~
+      "	 	"
+    ]
+  ]
+  attribute reducer { text },
+  [
+    a:documentation [
+      "\x{a}" ~
+      "			\x{a}" ~
+      "The combiner class name.\x{a}" ~
+      "			\x{a}" ~
+      "			\x{a}" ~
+      "				"
+      tool:annotation [
+        kind = "direct"
+        "\x{a}" ~
+        "					"
+        tool:expected-type [ type = "java.lang.Class" ]
+        "\x{a}" ~
+        "					"
+        tool:assignable-to [
+          type = "org.apache.hadoop.mapreduce.Reducer"
+        ]
+        "\x{a}" ~
+        "				"
+      ]
+      "\x{a}" ~
+      "			\x{a}" ~
+      "	 	"
+    ]
+  ]
+  attribute combiner { text },
+  [
+    a:documentation [
+      "\x{a}" ~
+      "			\x{a}" ~
+      "				"
+      tool:annotation [
+        kind = "direct"
+        "\x{a}" ~
+        "					"
+        tool:expected-type [ type = "java.lang.Class" ]
+        "\x{a}" ~
+        "					"
+        tool:assignable-to [
+          type = "org.apache.hadoop.mapreduce.InputFormat"
+        ]
+        "\x{a}" ~
+        "				"
+      ]
+      "\x{a}" ~
+      "			\x{a}" ~
+      "	 	"
+    ]
+  ]
+  attribute input-format { text },
+  [
+    a:documentation [
+      "\x{a}" ~
+      "			\x{a}" ~
+      "				"
+      tool:annotation [
+        kind = "direct"
+        "\x{a}" ~
+        "					"
+        tool:expected-type [ type = "java.lang.Class" ]
+        "\x{a}" ~
+        "					"
+        tool:assignable-to [
+          type = "org.apache.hadoop.mapreduce.OutputFormat"
+        ]
+        "\x{a}" ~
+        "				"
+      ]
+      "\x{a}" ~
+      "			\x{a}" ~
+      "	 	"
+    ]
+  ]
+  attribute output-format { text },
+  [
+    a:documentation [
+      "\x{a}" ~
+      "			\x{a}" ~
+      "				"
+      tool:annotation [
+        kind = "direct"
+        "\x{a}" ~
+        "					"
+        tool:expected-type [ type = "java.lang.Class" ]
+        "\x{a}" ~
+        "					"
+        tool:assignable-to [
+          type = "org.apache.hadoop.mapreduce.Partitioner"
+        ]
+        "\x{a}" ~
+        "				"
+      ]
+      "\x{a}" ~
+      "			\x{a}" ~
+      "	 	"
+    ]
+  ]
+  attribute partitioner { text },
+  [
+    a:documentation [
+      "\x{a}" ~
+      "			\x{a}" ~
+      "				"
+      tool:annotation [
+        kind = "direct"
+        "\x{a}" ~
+        "					"
+        tool:expected-type [ type = "java.lang.String[]" ]
+        "\x{a}" ~
+        "				"
+      ]
+      "\x{a}" ~
+      "			\x{a}" ~
+      "	 	"
+    ]
+  ]
+  attribute input-path { text },
+  [
+    a:documentation [
+      "\x{a}" ~
+      "			\x{a}" ~
+      "				"
+      tool:annotation [
+        kind = "direct"
+        "\x{a}" ~
+        "					"
+        tool:expected-type [ type = "java.lang.String" ]
+        "\x{a}" ~
+        "				"
+      ]
+      "\x{a}" ~
+      "			\x{a}" ~
+      "	 	"
+    ]
+  ]
+  attribute output-path { text }
+  >> a:documentation [
+       "\x{a}" ~
+       "            default value is : hadoop-configuration"
+     ],
+  [
+    a:defaultValue = "hadoop-configuration"
+    a:documentation [
+      "\x{a}" ~
+      "				\x{a}" ~
+      "Reference to the Hadoop Configuration. Defaults to 'hadoop-configuration'.\x{a}" ~
+      "				\x{a}" ~
+      "					"
+      tool:annotation [
+        kind = "ref"
+        "\x{a}" ~
+        "						"
+        tool:expected-type [
+          type = "org.apache.hadoop.conf.Configuration"
+        ]
+        "\x{a}" ~
+        "					"
+      ]
+      "\x{a}" ~
+      "				\x{a}" ~
+      "	 	"
+    ]
+  ]
+  attribute configuration-ref { text }
+start |= org.springframework.www.schema.hadoop.job
+org.springframework.www.schema.hadoop.job &=
+  [
+    a:documentation [
+      "\x{a}" ~
+      "		   \x{a}" ~
+      "Defines a Hadoop Job.\x{a}" ~
+      "				\x{a}" ~
+      "	      \x{a}" ~
+      "	        "
+      tool:annotation [
+        "\x{a}" ~
+        "	          "
+        tool:exports [ type = "org.apache.hadoop.mapreduce.Job" ]
+        "\x{a}" ~
+        "	        "
+      ]
+      "\x{a}" ~
+      "	      \x{a}" ~
+      "		"
+    ]
+  ]
+  element job {
+    org.springframework.www.schema.hadoop.jobType,
+    [
+      a:documentation [
+        "\x{a}" ~
+        "			\x{a}" ~
+        "				"
+        tool:annotation [
+          kind = "direct"
+          "\x{a}" ~
+          "					"
+          tool:expected-type [ type = "java.lang.Class" ]
+          "\x{a}" ~
+          "					"
+          tool:assignable-to [
+            type = "org.apache.hadoop.io.RawComparator"
+          ]
+          "\x{a}" ~
+          "				"
+        ]
+        "\x{a}" ~
+        "			\x{a}" ~
+        "	 	"
+      ]
+    ]
+    attribute sort-comparator { text },
+    [
+      a:documentation [
+        "\x{a}" ~
+        "			\x{a}" ~
+        "				"
+        tool:annotation [
+          kind = "direct"
+          "\x{a}" ~
+          "					"
+          tool:expected-type [ type = "java.lang.Class" ]
+          "\x{a}" ~
+          "					"
+          tool:assignable-to [
+            type = "org.apache.hadoop.io.RawComparator"
+          ]
+          "\x{a}" ~
+          "				"
+        ]
+        "\x{a}" ~
+        "			\x{a}" ~
+        "	 	"
+      ]
+    ]
+    attribute grouping-comparator { text },
+    [
+      a:documentation [
+        "\x{a}" ~
+        "			\x{a}" ~
+        "				"
+        tool:annotation [
+          kind = "direct"
+          "\x{a}" ~
+          "					"
+          tool:expected-type [ type = "java.lang.Class" ]
+          "\x{a}" ~
+          "				"
+        ]
+        "\x{a}" ~
+        "			\x{a}" ~
+        "	 	"
+      ]
+    ]
+    attribute key { text },
+    [
+      a:documentation [
+        "\x{a}" ~
+        "			\x{a}" ~
+        "				"
+        tool:annotation [
+          kind = "direct"
+          "\x{a}" ~
+          "					"
+          tool:expected-type [ type = "java.lang.Class" ]
+          "\x{a}" ~
+          "				"
+        ]
+        "\x{a}" ~
+        "			\x{a}" ~
+        "	 	"
+      ]
+    ]
+    attribute value { text },
+    [
+      a:documentation [
+        "\x{a}" ~
+        "			\x{a}" ~
+        "				"
+        tool:annotation [
+          kind = "direct"
+          "\x{a}" ~
+          "					"
+          tool:expected-type [ type = "java.lang.Class" ]
+          "\x{a}" ~
+          "				"
+        ]
+        "\x{a}" ~
+        "			\x{a}" ~
+        "	 	"
+      ]
+    ]
+    attribute map-key { text },
+    [
+      a:documentation [
+        "\x{a}" ~
+        "			\x{a}" ~
+        "				"
+        tool:annotation [
+          kind = "direct"
+          "\x{a}" ~
+          "					"
+          tool:expected-type [ type = "java.lang.Class" ]
+          "\x{a}" ~
+          "				"
+        ]
+        "\x{a}" ~
+        "			\x{a}" ~
+        "	 	"
+      ]
+    ]
+    attribute map-value { text },
+    [
+      a:documentation [
+        "\x{a}" ~
+        "			\x{a}" ~
+        "				"
+        tool:annotation [
+          kind = "direct"
+          "\x{a}" ~
+          "					"
+          tool:expected-type [ type = "java.lang.Class" ]
+          "\x{a}" ~
+          "				"
+        ]
+        "\x{a}" ~
+        "			\x{a}" ~
+        "	 	"
+      ]
+    ]
+    attribute codec { text },
+    [
+      a:documentation [
+        "\x{a}" ~
+        "			\x{a}" ~
+        "Indicates the user jar for the map-reduce job.\x{a}" ~
+        "			\x{a}" ~
+        "			\x{a}" ~
+        "				"
+        tool:annotation [
+          "\x{a}" ~
+          "					"
+          tool:expected-type [
+            type = "org.springframework.core.io.Resource"
+          ]
+          "\x{a}" ~
+          "				"
+        ]
+        "\x{a}" ~
+        "			\x{a}" ~
+        "	 	"
+      ]
+    ]
+    attribute jar { text },
+    [
+      a:documentation [
+        "\x{a}" ~
+        "			\x{a}" ~
+        "Indicates the job's jar file by finding an example class location.\x{a}" ~
+        "			\x{a}" ~
+        "			\x{a}" ~
+        "				"
+        tool:annotation [
+          kind = "direct"
+          "\x{a}" ~
+          "					"
+          tool:expected-type [ type = "java.lang.Class" ]
+          "\x{a}" ~
+          "				"
+        ]
+        "\x{a}" ~
+        "			\x{a}" ~
+        "	 	"
+      ]
+    ]
+    attribute jar-by-class { text }
+    >> a:documentation [
+         "\x{a}" ~
+         "            default value is : true"
+       ],
+    
+    ## 
+    ##		   
+    ## Indicates whether the job input/output paths are validated before submitting. This
+    ## saves time as the validation is done locally without having to interact with the job
+    ## tracker. The validation checks whether the input path exists and the output does not.
+    ##				
+    ##		
+    [ a:defaultValue = "true" ] attribute validate-paths { text }
+  }
+start |= org.springframework.www.schema.hadoop.streaming
+org.springframework.www.schema.hadoop.streaming &=
+  [
+    a:documentation [
+      "\x{a}" ~
+      "		   \x{a}" ~
+      "Defines a Hadoop Streaming Job.\x{a}" ~
+      "				\x{a}" ~
+      "	      \x{a}" ~
+      "	        "
+      tool:annotation [
+        "\x{a}" ~
+        "	          "
+        tool:exports [ type = "org.apache.hadoop.mapreduce.Job" ]
+        "\x{a}" ~
+        "	        "
+      ]
+      "\x{a}" ~
+      "	      \x{a}" ~
+      "		"
+    ]
+  ]
+  element streaming {
+    org.springframework.www.schema.hadoop.jobType,
+    element cmd-env {
+      empty
+      >> a:documentation [
+           "\x{a}" ~
+           "				Environment variables (-cmdenv)\x{a}" ~
+           "				"
+         ]
+    }?,
+    [
+      a:documentation [
+        "\x{a}" ~
+        "			\x{a}" ~
+        "				"
+        tool:annotation [
+          kind = "direct"
+          "\x{a}" ~
+          "					"
+          tool:expected-type [ type = "java.lang.Integer" ]
+          "\x{a}" ~
+          "				"
+        ]
+        "\x{a}" ~
+        "			\x{a}" ~
+        "	 	"
+      ]
+    ]
+    attribute number-reducers { text },
+    [
+      a:documentation [
+        "\x{a}" ~
+        "			\x{a}" ~
+        "				"
+        tool:annotation [
+          kind = "direct"
+          "\x{a}" ~
+          "					"
+          tool:expected-type [ type = "java.lang.String[]" ]
+          "\x{a}" ~
+          "				"
+        ]
+        "\x{a}" ~
+        "			\x{a}" ~
+        "	 	"
+      ]
+    ]
+    attribute file { text },
+    [
+      a:documentation [
+        "\x{a}" ~
+        "			\x{a}" ~
+        "				"
+        tool:annotation [
+          kind = "direct"
+          "\x{a}" ~
+          "					"
+          tool:expected-type [ type = "java.lang.String[]" ]
+          "\x{a}" ~
+          "				"
+        ]
+        "\x{a}" ~
+        "			\x{a}" ~
+        "	 	"
+      ]
+    ]
+    attribute archive { text },
+    [
+      a:documentation [
+        "\x{a}" ~
+        "			\x{a}" ~
+        "				"
+        tool:annotation [
+          kind = "direct"
+          "\x{a}" ~
+          "					"
+          tool:expected-type [ type = "java.lang.String[]" ]
+          "\x{a}" ~
+          "				"
+        ]
+        "\x{a}" ~
+        "			\x{a}" ~
+        "	 	"
+      ]
+    ]
+    attribute lib { text }
+  }
+# common attributes shared by properties based configurations 
+# NOT meant for extensibility - do NOT rely on this type as it might be removed in the future
+org.springframework.www.schema.hadoop.toolRunnerType &=
+  org.springframework.www.schema.hadoop.propertiesConfigurableType,
+  element * { text }?,
+  
+  ## 
+  ##					
+  ## Tool argument.
+  ##					
+  element arg {
+    attribute value { xsd:string }
+  }*,
+  attribute id {
+    xsd:ID
+    >> a:documentation [
+         "\x{a}" ~
+         "				\x{a}" ~
+         "Bean id.\x{a}" ~
+         "				"
+       ]
+  },
+  attribute tool-class {
+    xsd:string
+    >> a:documentation [
+         "\x{a}" ~
+         "					\x{a}" ~
+         "Indicates the job's jar file by finding an example class location.\x{a}" ~
+         "					\x{a}" ~
+         "					\x{a}" ~
+         "						"
+         tool:annotation [
+           kind = "direct"
+           "\x{a}" ~
+           "							"
+           tool:expected-type [ type = "java.lang.Class" ]
+           "\x{a}" ~
+           "						"
+         ]
+         "\x{a}" ~
+         "					\x{a}" ~
+         "			 	"
+       ]
+  },
+  [
+    a:documentation [
+      "\x{a}" ~
+      "					\x{a}" ~
+      "Reference to a Hadoop Tool instance.\x{a}" ~
+      "					\x{a}" ~
+      "						"
+      tool:annotation [
+        kind = "ref"
+        "\x{a}" ~
+        "							"
+        tool:expected-type [ type = "org.apache.hadoop.util.Tool" ]
+        "\x{a}" ~
+        "						"
+      ]
+      "\x{a}" ~
+      "					\x{a}" ~
+      "		 	"
+    ]
+  ]
+  attribute tool-ref { text }
+  >> a:documentation [
+       "\x{a}" ~
+       "            default value is : hadoop-configuration"
+     ],
+  [
+    a:defaultValue = "hadoop-configuration"
+    a:documentation [
+      "\x{a}" ~
+      "				\x{a}" ~
+      "Reference to the Hadoop Configuration. Defaults to 'hadoop-configuration'.\x{a}" ~
+      "				\x{a}" ~
+      "					"
+      tool:annotation [
+        kind = "ref"
+        "\x{a}" ~
+        "						"
+        tool:expected-type [
+          type = "org.apache.hadoop.conf.Configuration"
+        ]
+        "\x{a}" ~
+        "					"
+      ]
+      "\x{a}" ~
+      "				\x{a}" ~
+      "		 	"
+    ]
+  ]
+  attribute configuration-ref { text }
+start |= org.springframework.www.schema.hadoop.tool-runner
+org.springframework.www.schema.hadoop.tool-runner &=
+  
+  ## 
+  ##		   
+  ## Executes a Hadoop Tool.
+  ##		
+  element tool-runner {
+    org.springframework.www.schema.hadoop.toolRunnerType
+    >> a:documentation [
+         "\x{a}" ~
+         "            default value is : false"
+       ],
+    [ a:defaultValue = "false" ]
+    attribute run-at-startup {
+      xsd:boolean
+      >> a:documentation [
+           "\x{a}" ~
+           "					\x{a}" ~
+           "Whether the Tool runs at startup or not (default).\x{a}" ~
+           "					\x{a}" ~
+           "	         	"
+         ]
+    }
+  }
+start |= org.springframework.www.schema.hadoop.tool-tasklet
+org.springframework.www.schema.hadoop.tool-tasklet &=
+  
+  ## 
+  ##		   
+  ## Defines a Hadoop Tool Tasklet.
+  ##		
+  element tool-tasklet {
+    org.springframework.www.schema.hadoop.toolRunnerType,
+    attribute scope { xsd:string }?
+  }
+org.springframework.www.schema.hadoop.entryType &=
+  attribute value { xsd:string }
+start |= org.springframework.www.schema.hadoop.cache
+org.springframework.www.schema.hadoop.cache &=
+  [
+    a:documentation [
+      "\x{a}" ~
+      "			   \x{a}" ~
+      "Configures Hadoop Distributed Cache.\x{a}" ~
+      "					\x{a}" ~
+      "		      \x{a}" ~
+      "		        "
+      tool:annotation [
+        "\x{a}" ~
+        "		          "
+        tool:exports [
+          type = "org.apache.hadoop.io.DistributedCacheFactoryBean"
+        ]
+        "\x{a}" ~
+        "		        "
+      ]
+      "\x{a}" ~
+      "		      \x{a}" ~
+      "			"
+    ]
+  ]
+  element cache {
+    (element classpath {
+       org.springframework.www.schema.hadoop.entryType
+     }
+     | element cache { org.springframework.www.schema.hadoop.entryType }
+     | element local {
+         org.springframework.www.schema.hadoop.entryType
+       }),
+    attribute id {
+      xsd:ID
+      >> a:documentation [
+           "\x{a}" ~
+           "				\x{a}" ~
+           'Bean id (default is "hadoop-cache").\x{a}' ~
+           "				\x{a}" ~
+           "			"
+         ]
+    }?,
+    attribute create-symlink { xsd:boolean }
+    >> a:documentation [
+         "\x{a}" ~
+         "            default value is : hadoop-configuration"
+       ],
+    [
+      a:defaultValue = "hadoop-configuration"
+      a:documentation [
+        "\x{a}" ~
+        "					\x{a}" ~
+        "Reference to the Hadoop Configuration. Defaults to 'hadoop-configuration'.\x{a}" ~
+        "					\x{a}" ~
+        "						"
+        tool:annotation [
+          kind = "ref"
+          "\x{a}" ~
+          "							"
+          tool:expected-type [
+            type = "org.apache.hadoop.conf.Configuration"
+          ]
+          "\x{a}" ~
+          "						"
+        ]
+        "\x{a}" ~
+        "					\x{a}" ~
+        "		 	"
+      ]
+    ]
+    attribute configuration-ref { text },
+    [
+      a:documentation [
+        "\x{a}" ~
+        "					\x{a}" ~
+        "Reference to the Hadoop FileSystem.\x{a}" ~
+        "					\x{a}" ~
+        "						"
+        tool:annotation [
+          kind = "ref"
+          "\x{a}" ~
+          "							"
+          tool:expected-type [
+            type = "org.apache.hadoop.fs.FileSystem"
+          ]
+          "\x{a}" ~
+          "						"
+        ]
+        "\x{a}" ~
+        "					\x{a}" ~
+        "		 	"
+      ]
+    ]
+    attribute file-system-ref { text }
+  }
+org.springframework.www.schema.hadoop.scriptType &=
+  attribute location {
+    xsd:string
+    >> a:documentation [
+         "\x{a}" ~
+         "					\x{a}" ~
+         "Location of the script. As an alternative one can inline the script by using a nested, text declaration.\x{a}" ~
+         "					\x{a}" ~
+         "						"
+         tool:annotation [
+           "\x{a}" ~
+           "							"
+           tool:expected-type [
+             type = "org.springframework.core.io.Resource"
+           ]
+           "\x{a}" ~
+           "						"
+         ]
+         "\x{a}" ~
+         "					\x{a}" ~
+         "				"
+       ]
+  }
+org.springframework.www.schema.hadoop.scriptWithArgumentsType &=
+  org.springframework.www.schema.hadoop.scriptType,
+  element arguments {
+    empty
+    >> a:documentation [
+         "\x{a}" ~
+         "		   			\x{a}" ~
+         "Argument(s) to pass to this script. Defined in Properties format (key=value).\x{a}" ~
+         "				\x{a}" ~
+         "				    "
+       ]
+  }?
+start |= org.springframework.www.schema.hadoop.pig
+org.springframework.www.schema.hadoop.pig &=
+  [
+    a:documentation [
+      "\x{a}" ~
+      "		   \x{a}" ~
+      "Defines a PigServer 'template' (note that since PigServer is not thread-safe, each bean invocation will create a new PigServer instance).\x{a}" ~
+      "				\x{a}" ~
+      "          \x{a}" ~
+      "	      \x{a}" ~
+      "	        "
+      tool:annotation [
+        "\x{a}" ~
+        "	          "
+        tool:exports [ type = "org.apache.pig.PigServer" ]
+        "\x{a}" ~
+        "	        "
+      ]
+      "\x{a}" ~
+      "	      \x{a}" ~
+      "		"
+    ]
+  ]
+  element pig {
+    org.springframework.www.schema.hadoop.propertiesConfigurableType,
+    element script {
+      org.springframework.www.schema.hadoop.scriptWithArgumentsType
+      >> a:documentation [
+           "\x{a}" ~
+           "						\x{a}" ~
+           "Pig script.\x{a}" ~
+           "						"
+         ]
+    }*,
+    attribute id {
+      xsd:ID
+      >> a:documentation [
+           "\x{a}" ~
+           "				\x{a}" ~
+           'Bean id (default is "hadoop-pig-server").\x{a}' ~
+           "				\x{a}" ~
+           "				"
+         ]
+    }?,
+    
+    ## 
+    ##						
+    ## The path to be skipped while automatically shipping binaries for streaming. Multiple resources can be specified, using comma (,) as a separator.
+    ##						
+    ##			 	
+    attribute paths-to-skip { text },
+    attribute parallelism { xsd:integer },
+    attribute validate-each-statement { xsd:boolean },
+    attribute job-priority { xsd:string },
+    attribute job-name { xsd:string },
+    attribute job-tracker { xsd:string },
+    [
+      a:documentation [
+        "\x{a}" ~
+        "					\x{a}" ~
+        "Reference to the Hadoop Configuration. Can be tweaked through the 'configuration' element or the other attributes.\x{a}" ~
+        "					\x{a}" ~
+        "						"
+        tool:annotation [
+          kind = "ref"
+          "\x{a}" ~
+          "							"
+          tool:expected-type [
+            type = "org.apache.hadoop.conf.Configuration"
+          ]
+          "\x{a}" ~
+          "						"
+        ]
+        "\x{a}" ~
+        "					\x{a}" ~
+        "			 	"
+      ]
+    ]
+    attribute configuration-ref { text }
+    >> a:documentation [
+         "\x{a}" ~
+         "            default value is : MAPREDUCE"
+       ],
+    [ a:defaultValue = "MAPREDUCE" ]
+    attribute exec-type { "MAPREDUCE" | "LOCAL" }
+  }
+start |= org.springframework.www.schema.hadoop.pig-tasklet
+org.springframework.www.schema.hadoop.pig-tasklet &=
+  [
+    a:documentation [
+      "\x{a}" ~
+      "		   \x{a}" ~
+      "Defines a PigTasklet.\x{a}" ~
+      "				\x{a}" ~
+      "	      \x{a}" ~
+      "	        "
+      tool:annotation [
+        "\x{a}" ~
+        "	          "
+        tool:exports [
+          type = "org.springframework.data.hadoop.batch.PigTasket"
+        ]
+        "\x{a}" ~
+        "	        "
+      ]
+      "\x{a}" ~
+      "	      \x{a}" ~
+      "		"
+    ]
+  ]
+  element pig-tasklet {
+    element script {
+      org.springframework.www.schema.hadoop.scriptWithArgumentsType
+      >> a:documentation [
+           "\x{a}" ~
+           "					\x{a}" ~
+           "Pig script.\x{a}" ~
+           "					"
+         ]
+    }+,
+    attribute id {
+      xsd:ID
+      >> a:documentation [
+           "\x{a}" ~
+           "				\x{a}" ~
+           "Bean id.\x{a}" ~
+           "				"
+         ]
+    }
+    >> a:documentation [
+         "\x{a}" ~
+         "            default value is : pig"
+       ],
+    [ a:defaultValue = "pig" ]
+    attribute pig-server-ref {
+      xsd:string
+      >> a:documentation [
+           "\x{a}" ~
+           "				\x{a}" ~
+           "Reference to a PigServer instance. Defaults to 'hadoop-pig-server'.\x{a}" ~
+           "				\x{a}" ~
+           "					\x{a}" ~
+           "						"
+           tool:annotation [
+             kind = "ref"
+             "\x{a}" ~
+             "							"
+             tool:expected-type [ type = "org.apache.pig.PigServer" ]
+             "\x{a}" ~
+             "						"
+           ]
+           "\x{a}" ~
+           "					\x{a}" ~
+           "				"
+         ]
+    }?,
+    attribute scope { xsd:string }?
+  }
+# HBase
+start |= org.springframework.www.schema.hadoop.hbase-configuration
+org.springframework.www.schema.hadoop.hbase-configuration &=
+  element hbase-configuration {
+    org.springframework.www.schema.hadoop.propertiesConfigurableType
+    >> a:documentation [
+         "\x{a}" ~
+         "			   \x{a}" ~
+         "Defines an HBase configuration.\x{a}" ~
+         "					\x{a}" ~
+         "		      \x{a}" ~
+         "		        "
+         tool:annotation [
+           "\x{a}" ~
+           "		          "
+           tool:exports [
+             type = "org.apache.hadoop.conf.Configuration"
+           ]
+           "\x{a}" ~
+           "		        "
+         ]
+         "\x{a}" ~
+         "		      \x{a}" ~
+         "			"
+       ],
+    (attribute id {
+       xsd:ID
+       >> a:documentation [
+            "\x{a}" ~
+            "				\x{a}" ~
+            'Bean id (default is "hbase-configuration").\x{a}' ~
+            "				\x{a}" ~
+            "			"
+          ]
+     }?)
+    >> a:documentation [
+         "\x{a}" ~
+         "            default value is : true"
+       ],
+    [ a:defaultValue = "true" ]
+    attribute stop-proxy { xsd:boolean }
+    >> a:documentation [
+         "\x{a}" ~
+         "            default value is : true"
+       ],
+    [ a:defaultValue = "true" ]
+    attribute delete-connection { xsd:boolean },
+    [
+      a:documentation [
+        "\x{a}" ~
+        "					\x{a}" ~
+        "Reference to the Hadoop configuration.\x{a}" ~
+        "					\x{a}" ~
+        "						"
+        tool:annotation [
+          kind = "ref"
+          "\x{a}" ~
+          "							"
+          tool:expected-type [
+            type = "org.apache.hadoop.conf.Configuration"
+          ]
+          "\x{a}" ~
+          "						"
+        ]
+        "\x{a}" ~
+        "					\x{a}" ~
+        "		 	"
+      ]
+    ]
+    attribute configuration-ref { text }
+  }
+# Hive
+start |= org.springframework.www.schema.hadoop.hive-client
+org.springframework.www.schema.hadoop.hive-client &=
+  [
+    a:documentation [
+      "\x{a}" ~
+      "			   \x{a}" ~
+      "Defines a Hive client for connecting to a Hive server through the Thrift protocol.\x{a}" ~
+      "					\x{a}" ~
+      "		      \x{a}" ~
+      "		        "
+      tool:annotation [
+        "\x{a}" ~
+        "		          "
+        tool:exports [
+          type = "org.apache.hadoop.hive.service.HiveClient"
+        ]
+        "\x{a}" ~
+        "		        "
+      ]
+      "\x{a}" ~
+      "		      \x{a}" ~
+      "			"
+    ]
+  ]
+  element hive-client {
+    element script {
+      org.springframework.www.schema.hadoop.scriptType
+      >> a:documentation [
+           "\x{a}" ~
+           "					\x{a}" ~
+           "Hive script to be executed during start-up.\x{a}" ~
+           "					"
+         ]
+    }*,
+    (attribute id {
+       xsd:ID
+       >> a:documentation [
+            "\x{a}" ~
+            "				\x{a}" ~
+            'Bean id (default is "hive-client").\x{a}' ~
+            "				\x{a}" ~
+            "			"
+          ]
+     }?)
+    >> a:documentation [
+         "\x{a}" ~
+         "            default value is : localhost"
+       ],
+    [ a:defaultValue = "localhost" ]
+    attribute host { xsd:string }
+    >> a:documentation [
+         "\x{a}" ~
+         "            default value is : 10000"
+       ],
+    [ a:defaultValue = "10000" ]
+    attribute port { xsd:string }
+    >> a:documentation [
+         "\x{a}" ~
+         "            default value is : true"
+       ],
+    [ a:defaultValue = "true" ] attribute auto-startup { xsd:boolean }
+  }
+start |= org.springframework.www.schema.hadoop.hive-server
+org.springframework.www.schema.hadoop.hive-server &=
+  element hive-server {
+    org.springframework.www.schema.hadoop.propertiesConfigurableType
+    >> a:documentation [
+         "\x{a}" ~
+         "			   \x{a}" ~
+         "Defines an embedded Hive Server instance opened for access through the Thrift protocol.\x{a}" ~
+         "					\x{a}" ~
+         "		      \x{a}" ~
+         "		        "
+         tool:annotation [
+           "\x{a}" ~
+           "		          "
+           tool:exports [ type = "org.apache.thrift.server.TServer" ]
+           "\x{a}" ~
+           "		        "
+         ]
+         "\x{a}" ~
+         "		      \x{a}" ~
+         "			"
+       ],
+    (attribute id {
+       xsd:ID
+       >> a:documentation [
+            "\x{a}" ~
+            "				\x{a}" ~
+            'Bean id (default is "hive-server").\x{a}' ~
+            "				\x{a}" ~
+            "			"
+          ]
+     }?)
+    >> a:documentation [
+         "\x{a}" ~
+         "            default value is : 10000"
+       ],
+    [ a:defaultValue = "10000" ]
+    attribute port { xsd:string }
+    >> a:documentation [ "\x{a}" ~ "            default value is : 5" ],
+    [ a:defaultValue = "5" ]
+    attribute min-threads { xsd:string }
+    >> a:documentation [
+         "\x{a}" ~
+         "            default value is : 100"
+       ],
+    [ a:defaultValue = "100" ]
+    attribute max-threads { xsd:string }
+    >> a:documentation [
+         "\x{a}" ~
+         "            default value is : true"
+       ],
+    [ a:defaultValue = "true" ] attribute auto-startup { xsd:boolean },
+    [
+      a:documentation [
+        "\x{a}" ~
+        "					\x{a}" ~
+        "Reference to the Hadoop configuration.\x{a}" ~
+        "					\x{a}" ~
+        "						"
+        tool:annotation [
+          kind = "ref"
+          "\x{a}" ~
+          "							"
+          tool:expected-type [
+            type = "org.apache.hadoop.conf.Configuration"
+          ]
+          "\x{a}" ~
+          "						"
+        ]
+        "\x{a}" ~
+        "					\x{a}" ~
+        "		 	"
+      ]
+    ]
+    attribute configuration-ref { text }
+  }
+start |= org.springframework.www.schema.hadoop.hive-tasklet
+org.springframework.www.schema.hadoop.hive-tasklet &=
+  [
+    a:documentation [
+      "\x{a}" ~
+      "		   \x{a}" ~
+      "Defines a HiveTasklet.\x{a}" ~
+      "				\x{a}" ~
+      "	      \x{a}" ~
+      "	        "
+      tool:annotation [
+        "\x{a}" ~
+        "	          "
+        tool:exports [
+          type = "org.springframework.data.hadoop.batch.HiveTasket"
+        ]
+        "\x{a}" ~
+        "	        "
+      ]
+      "\x{a}" ~
+      "	      \x{a}" ~
+      "		"
+    ]
+  ]
+  element hive-tasklet {
+    element script {
+      org.springframework.www.schema.hadoop.scriptType
+      >> a:documentation [
+           "\x{a}" ~
+           "					\x{a}" ~
+           "Hive script.\x{a}" ~
+           "					"
+         ]
+    }+,
+    attribute id {
+      xsd:ID
+      >> a:documentation [
+           "\x{a}" ~
+           "				\x{a}" ~
+           "Bean id.\x{a}" ~
+           "				"
+         ]
+    }
+    >> a:documentation [
+         "\x{a}" ~
+         "            default value is : hive-client"
+       ],
+    [ a:defaultValue = "hive-client" ]
+    attribute hive-client-ref {
+      xsd:string
+      >> a:documentation [
+           "\x{a}" ~
+           "				\x{a}" ~
+           "Reference to a HiveClient instance. Defaults to 'hive-client'.\x{a}" ~
+           "				\x{a}" ~
+           "					\x{a}" ~
+           "						"
+           tool:annotation [
+             kind = "ref"
+             "\x{a}" ~
+             "							"
+             tool:expected-type [
+               type = "org.apache.hadoop.hive.service.HiveClient"
+             ]
+             "\x{a}" ~
+             "						"
+           ]
+           "\x{a}" ~
+           "					\x{a}" ~
+           "				"
+         ]
+    }?,
+    attribute scope { xsd:string }?
+  }
+# Script type - NOT mean to be reused outside this schema
+org.springframework.www.schema.hadoop.scriptingType &=
+  element property {
+    org.springframework.www.schema.beans.propertyType
+    >> a:documentation [
+         "\x{a}" ~
+         "						\x{a}" ~
+         "Property to pass to the script. Can be used to enhance or override the default properties.\x{a}" ~
+         "						\x{a}" ~
+         "					"
+       ]
+  }*,
+  attribute location {
+    xsd:string
+    >> a:documentation [
+         "\x{a}" ~
+         "				\x{a}" ~
+         "The location of the script. Can be any resource on the local filesystem, web or even hdfs.\x{a}" ~
+         "				\x{a}" ~
+         "         		\x{a}" ~
+         "			"
+       ]
+  },
+  attribute language {
+    xsd:string
+    >> a:documentation [
+         "\x{a}" ~
+         "				\x{a}" ~
+         "The language used for executing the script. If no value is given, the script source extension\x{a}" ~
+         "is used to determine the scripting engine.\x{a}" ~
+         "				\x{a}" ~
+         "         	"
+       ]
+  }
+  >> a:documentation [
+       "\x{a}" ~
+       "            default value is : ALWAYS"
+     ],
+  
+  ## 
+  ##				
+  ## When to evaluate the script. 'ALWAYS' (default) evaluates the script on all invocations,
+  ## 'IF_MODIFIED' if the script source has been modified since the last invocation and 'ONCE'
+  ## only once for the duration of the application. 
+  ##				
+  ##          	
+  [ a:defaultValue = "ALWAYS" ]
+  attribute evaluate { "ONCE" | "IF_MODIFIED" | "ALWAYS" }
+start |= org.springframework.www.schema.hadoop.script
+org.springframework.www.schema.hadoop.script &=
+  [
+    a:documentation [
+      "\x{a}" ~
+      "				   \x{a}" ~
+      "Dedicated scripting facility for interacting with Hadoop. Allows Groovy, JavaScript (Rhino), Ruby (JRuby), Python (Jython)\x{a}" ~
+      "or any JSR-223 scripting language to be used for executing commands against Hadoop, in particular its file system.  \x{a}" ~
+      "					\x{a}" ~
+      "			      \x{a}" ~
+      "			        "
+      tool:annotation [
+        "\x{a}" ~
+        "			          "
+        tool:exports [ type = "java.lang.Object" ]
+        "\x{a}" ~
+        "			        "
+      ]
+      "\x{a}" ~
+      "			      \x{a}" ~
+      "				"
+    ]
+  ]
+  element script {
+    org.springframework.www.schema.hadoop.scriptingType,
+    (attribute id {
+       xsd:ID
+       >> a:documentation [
+            "\x{a}" ~
+            "						\x{a}" ~
+            "Bean id (if no value is given, a name will be generated).\x{a}" ~
+            "						\x{a}" ~
+            "					"
+          ]
+     }?)
+    >> a:documentation [
+         "\x{a}" ~
+         "            default value is : false"
+       ],
+    [ a:defaultValue = "false" ]
+    attribute run-at-startup {
+      xsd:boolean
+      >> a:documentation [
+           "\x{a}" ~
+           "						\x{a}" ~
+           "Whether the script is evaluated automatically once the application context initializes or only when in use (the default).\x{a}" ~
+           "						\x{a}" ~
+           "		         	"
+         ]
+    }
+  }
+start |= org.springframework.www.schema.hadoop.script-tasklet
+org.springframework.www.schema.hadoop.script-tasklet &=
+  [
+    a:documentation [
+      "\x{a}" ~
+      "			   \x{a}" ~
+      "Defines a scripting Tasklet for interacting with Hadoop. Allows Groovy, JavaScript (Rhino), Ruby (JRuby), Python (Jython)\x{a}" ~
+      "or any JSR-223 scripting language to be used for executing commands against Hadoop, in particular its file system.  \x{a}" ~
+      "					\x{a}" ~
+      "	          \x{a}" ~
+      "		      \x{a}" ~
+      "		        "
+      tool:annotation [
+        "\x{a}" ~
+        "		          "
+        tool:exports [ type = "java.lang.Object" ]
+        "\x{a}" ~
+        "		        "
+      ]
+      "\x{a}" ~
+      "		      \x{a}" ~
+      "			"
+    ]
+  ]
+  element script-tasklet {
+    
+    ## 
+    ##						
+    ## Nested script declaration.
+    ##			 	
+    element script {
+      org.springframework.www.schema.hadoop.scriptingType
+    }?,
+    attribute id {
+      xsd:ID
+      >> a:documentation [
+           "\x{a}" ~
+           "				\x{a}" ~
+           "Bean id.\x{a}" ~
+           "			"
+         ]
+    },
+    attribute script-ref {
+      xsd:string
+      >> a:documentation [
+           "\x{a}" ~
+           "						\x{a}" ~
+           "Reference to a script declaration.\x{a}" ~
+           "						\x{a}" ~
+           "							"
+           tool:annotation [
+             kind = "ref"
+             "\x{a}" ~
+             "								"
+             tool:expected-type [ type = "java.lang.Object" ]
+             "\x{a}" ~
+             "							"
+           ]
+           "\x{a}" ~
+           "						\x{a}" ~
+           "			 	"
+         ]
+    },
+    attribute scope { xsd:string }?
+  }

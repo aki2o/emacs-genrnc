@@ -1,0 +1,21 @@
+(require 'genrnc)
+(require 'tenv)
+(require 'el-expectations)
+
+(expectations
+  (desc "get-namespace-alist-in-schema-file 1")
+  (expect '(("m" . "http://www.w3.org/1998/Math/MathML"))
+    (let* ((tdir (tenv-get-tmp-directory "genrnc" t t))
+           (genrnc-user-schemas-directory tdir))
+      (copy-file "get-namespace-alist-in-schema-file.1.rnc" (concat tdir "/1.rnc"))
+      (genrnc--get-namespace-alist-in-schema-file "1")))
+  (desc "get-namespace-alist-in-schema-file 2")
+  (expect '(("" . "http://www.springframework.org/schema/hadoop")
+            ("beans" . "http://www.springframework.org/schema/beans")
+            ("tool" . "http://www.springframework.org/schema/tool")
+            ("xsi" . "http://www.w3.org/2001/XMLSchema-instance"))
+    (let* ((tdir (tenv-get-tmp-directory "genrnc" t t))
+           (genrnc-user-schemas-directory tdir))
+      (copy-file "get-namespace-alist-in-schema-file.2.rnc" (concat tdir "/2.rnc"))
+      (genrnc--get-namespace-alist-in-schema-file "2"))))
+
