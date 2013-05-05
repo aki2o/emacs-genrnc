@@ -42,7 +42,7 @@ Download this archive and expand it. Then, add the directory that has genrnc.el 
 
 ### For Using git command
 
-    git clone https://github.com/aki2o/emacs-genrnc
+    git clone https://github.com/aki2o/emacs-genrnc.git
 
 Then, add the directory that has genrnc.el to load-path.
 
