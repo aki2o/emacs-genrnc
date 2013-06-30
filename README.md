@@ -30,12 +30,38 @@ Install/Configuration
 
 ### Install
 
-2013/05/03 Now during an application for registration in el-get.
-
 I recommend using el-get for installing this extension.  
 Downloading manually or using git command are OK,
 but installing each the following dependency is required in this case.
 
+### For el-get.el
+
+2013/05/03 Now during an application for registration in el-get.  
+2013/06/30 But, not yet regist.  
+
+If you set `el-get-sources` in your .emacs or site-start.el file,  
+You can available el-get to install this extension.
+
+    (setq el-get-sources
+          '(
+            (:name log4e
+                   :website "https://github.com/aki2o/log4e"
+                   :description "provide logging framework for elisp."
+                   :type github
+                   :pkgname "aki2o/log4e")
+            (:name yaxception
+                   :website "https://github.com/aki2o/yaxception"
+                   :description "provide framework about exception like Java for elisp."
+                   :type github
+                   :pkgname "aki2o/yaxception")
+            (:name genrnc
+                   :website "https://github.com/aki2o/emacs-genrnc"
+                   :description "generate RELAX NG Compact Schema from RELAX NG Schema, XML Schema and DTD."
+                   :type github
+                   :pkgname "aki2o/emacs-genrnc"
+                   :depends (deferred log4e yaxception))
+            ))
+    
 ### For Manually
 
 Download this archive and expand it. Then, add the directory that has genrnc.el to load-path.
