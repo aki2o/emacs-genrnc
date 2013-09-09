@@ -3,6 +3,7 @@ What's this?
 
 This is a extension of Emacs that generate RELAX NG Compact Schema from RELAX NG Schema, XML Schema and DTD for nXML-mode.
 
+
 Feature
 =======
 
@@ -21,34 +22,40 @@ If regist the schema that has include/import, you give only the schema to the re
 Registed schema has *TypeID* on nXML-mode.  
 You can update/delete/rename schema by using *TypeID*.
 
-Install/Configuration
-=====================
 
-### Required
+Requirement
+===========
 
 * Java Runtime Environment
 
-### Install
 
-I recommend using el-get for installing this extension.  
-Downloading manually or using git command are OK,
-but installing each the following dependency is required in this case.
+Install
+=======
 
-### For el-get.el
+### If use package.el
+
+2013/09/10 It's available by using melpa.  
+
+### If use el-get.el
 
 2013/05/03 Now during an application for registration in el-get.  
 2013/06/30 But, not yet regist.  
 2013/07/26 It's available. But, master branch only.  
 
-### For Manually
-
-Download this archive and expand it. Then, add the directory that has genrnc.el to load-path.
-
-### For Using git command
+### If use git command
 
     git clone https://github.com/aki2o/emacs-genrnc.git
 
 Then, add the directory that has genrnc.el to load-path.
+
+**Note:** Installing each the following dependency is required in this case.
+
+### Manually
+
+Download this archive and expand it.  
+Then, add the directory that has genrnc.el to load-path.
+
+**Note:** Installing each the following dependency is required in this case.
 
 ### Dependency
 
@@ -56,12 +63,17 @@ Then, add the directory that has genrnc.el to load-path.
 * [log4e.el](https://github.com/aki2o/log4e)
 * [yaxception.el](https://github.com/aki2o/yaxception)
 
-### Configure
 
-    (require 'genrnc)
-    (setq genrnc-user-schemas-directory "~/.emacs.d/schema")
+Configuration
+=============
+
+```lisp
+(require 'genrnc)
+(setq genrnc-user-schemas-directory "~/.emacs.d/schema")
+```
 
 About other customization, execute `customize-group "genrnc"`.
+
 
 Usage
 =====
@@ -77,6 +89,7 @@ This extension provides the following commands.
 
 This extension don't provide Keymap.  
 Then, for using above commands, do M-x genrnc-regist-url or bind key by yourself.
+
 
 Information
 ===========
@@ -119,6 +132,7 @@ In the case, if don't know the schema location, show the following prompt.
     [GENRNC] Including not located ns:'...'. Input PATH or URL locating this: 
 
 Then, input right URL/Filepath of the schema.
+
 
 Tested On
 =========
