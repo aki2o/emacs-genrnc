@@ -6,7 +6,7 @@
 ;; Keywords: xml
 ;; URL: https://github.com/aki2o/emacs-genrnc
 ;; Version: 0.1.0
-;; Package-Requires: ((deferred "0.3.1") (log4e "0.2.0") (yaxception "0.1"))
+;; Package-Requires: ((deferred "0.3.1") (concurrent "0.3") (log4e "0.2.0") (yaxception "0.1"))
 
 ;; This program is free software; you can redistribute it and/or modify
 ;; it under the terms of the GNU General Public License as published by
